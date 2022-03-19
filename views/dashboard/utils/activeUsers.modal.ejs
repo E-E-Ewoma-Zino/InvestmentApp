@@ -1,0 +1,89 @@
+<!-- Modal -->
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2"
+	aria-hidden="true">
+	<div class="modal-dialog resolve modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Active users</h5>
+				<button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<p class="text-sm">A list of active users under you</p>
+				<hr class="horizontal gray-light my-1">
+				<div class="table-responsive p-0">
+					<table class="table align-items-center mb-0">
+						<thead>
+							<tr>
+								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+									User
+								</th>
+								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+									Plan</th>
+								<th
+									class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+									Amount</th>
+								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+									Resolve
+								</th>
+								<th class="text-secondary opacity-7"></th>
+								<th class="text-secondary opacity-7"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<% activeUsers.forEach( users => { %>
+							<% users.user.forEach( (user, index) => { %>
+							<% console.log(user) %>
+							<tr>
+								<td>
+									<div class="d-flex px-2 py-1">
+										<div>
+											<img src="/dashboard/img/team-2.jpg" class="avatar avatar-sm me-3"
+												alt="user1">
+										</div>
+										<div class="d-flex flex-column justify-content-center">
+											<h6 class="mb-0 text-sm"><%- user.id.firstname %></h6>
+											<p class="text-xs text-secondary mb-0"><%- user.id.username %></p>
+										</div>
+									</div>
+								</td>
+								<td class="align-middle text-center">
+									<span class=""><%- users.plan.name %></span>
+								</td>
+								<td class="align-middle text-center">
+									<span class=""><%- user.amount[index] %></span>
+								</td>
+								<form>
+									<td>
+										<input type="number" class="form-control w-100">
+									</td>
+									<td>
+										<div class="resolve">
+											<form>
+												<button class="btn btn-secondary m-0">Resolve</button>
+											</form>
+										</div>
+									</td>
+								</form>
+								<td class="align-middle">
+									<a href="/dashboard/view/<%- user.id.firstname %>?id=<%- user.id._id %>"
+										class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
+										data-original-title="Edit user">
+										See Profile
+									</a>
+								</td>
+							</tr>
+							<% }); %>
+							<% }) %>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+
+			</div>
+		</div>
+	</div>
+</div>

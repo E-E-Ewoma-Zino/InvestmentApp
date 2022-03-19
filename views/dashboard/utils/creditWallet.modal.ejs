@@ -1,0 +1,63 @@
+<!-- This is the credit modal -->
+<div class="row">
+	<div class="col-md-4">
+		<!-- Button trigger modal -->
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog"
+			aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-body p-0">
+						<div class="card card-plain">
+							<div class="card-header pb-0 text-left">
+								<h3 class="font-weight-bolder text-primary text-gradient">Credit Wallet</h3>
+								<p class="mb-0">Fill the form below</p>
+							</div>
+							<!-- TODO: Fill inputs with details -->
+							<div class="card-body">
+								<form id="creditWallet" role="form text-left">
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label class="" for="exampleFormControlSelect2">Currency</label>
+												<select class="form-control" id="exampleFormControlSelect2">
+													<option value="NGN">NGN</option>
+													<option value="USD">USD</option>
+													<option value="EUR">EUR</option>
+													<option value="CHN">CHN</option>
+													<option value="FRC">FRC</option>
+												</select>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<label class="">Amount</label>
+											<div class="form-group has-danger">
+												<input type="number" placeholder="100"
+													class="form-control" required/>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<label for="exampleFormControlTextarea2">Description</label>
+											<textarea class="form-control" id="exampleFormControlTextarea2" placeholder="A little description"
+												rows="1"></textarea>
+
+										</div>
+									</div>
+									<div class="text-center">
+										<button type="submit"
+											class="btn btn-round bg-gradient-primary btn-lg w-100 mt-4 mb-0">Pay with
+											FlutterWave</button>
+										<button type="submit"
+											class="btn btn-round bg-gradient-info btn-lg w-100 mt-4 mb-0">Pay with
+											PayPal</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>

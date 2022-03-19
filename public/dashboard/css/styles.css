@@ -1,0 +1,21 @@
+/* my css */
+body::-webkit-scrollbar {
+	display: none;
+}
+
+.appWallet_balance {
+	z-index: 1;
+	margin-right: 1.5rem
+}
+
+.header {
+	z-index: 1
+}
+
+/* for resolve modal */
+@media (min-width: 576px) {
+	.modal-dialog.resolve {
+		max-width: 70%;
+		margin: 1.75rem auto;
+	}
+}

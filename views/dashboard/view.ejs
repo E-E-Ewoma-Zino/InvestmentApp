@@ -1,0 +1,121 @@
+<!-- Head -->
+<%- include("components/__head") %>
+<!-- Sidebar -->
+<%- include("components/__sidebar") %>
+<% const { firstname, lastname, username, profilePic, method, increase, duration, maxInvestment, description } = userInfo %>
+<main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg ">
+	<!-- Navbar -->
+	<%- include("components/__navbar") %>
+	<!--  -->
+	<div class="container-fluid">
+		<div class="page-header d-flex justify-content-end min-height-300 border-radius-md mt-4"
+			style="background-image: url('/dashboard/img/curved-images/curved0.jpg'); background-position-y: 50%;">
+			<span class="mask bg-gradient-primary opacity-6"></span>
+		</div>
+		<div class="card card-body blur shadow-blur mx-4 mt-n6 overflow-hidden">
+			<div class="row gx-4">
+				<div class="col-auto">
+					<div class="avatar avatar-md position-relative">
+						<% if(profilePic){ %>
+							<img src="/<%- profilePic.path %> " alt="profile_image"
+								class="w-100 border-radius-lg shadow-sm">
+							<% }else{ %>
+							<span
+								class="d-flex justify-content-center align-items-center w-100 h-100 border-radius-lg shadow-sm text-uppercase bold bg-gradient-primary"><%- firstname.substr(0, 1) %></span>
+							<% } %>
+					</div>
+				</div>
+				<div class="col-auto my-auto">
+					<div class="h-100">
+						<h5 class="mb-1">
+							<%- firstname %> <%- lastname %>
+						</h5>
+						<p class="mb-0 font-weight-bold text-sm">
+							<%- username %>
+						</p>
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
+					<div class="nav-wrapper position-relative end-0">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid py-4">
+		<!-- COMMENT: Settings-->
+		<section id="settingSection" role="settings" aria-label="Settings">
+			<div class="row">
+				<div class="col-12">
+					<div class="card h-100">
+						<div class="card-header pb-0 p-3">
+							<div class="row">
+								<div class="col-md-8 d-flex align-items-center">
+									<h6 class="mb-0">Plan Information</h6>
+								</div>
+								<div class="col-md-4 text-end">
+									<a href="javascript:;">
+										<i class="fas fa-user-edit text-secondary text-sm" data-bs-toggle="tooltip"
+											data-bs-placement="top" title="" data-bs-original-title="Edit Profile"
+											aria-label="Edit Profile"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="card-body p-3">
+							<form role="form text-left">
+								<div class="form-group">
+									<span class="lead">How I work</span>
+									<div class="text-sm"><%- description %></div>
+								</div>
+								<hr class="horizontal gray-light my-4">
+								<ul class="list-group">
+									<li class="list-group-item border-0 ps-0 pt-0 text-sm">
+										<div class="form-group">
+											<span>Method:</span>
+											<span><%- method %></span>
+										</div>
+									</li>
+									<li class="list-group-item border-0 ps-0 pt-0 text-sm">
+										<div class="form-group">
+											<span>Duration:</span>
+											<span><%- duration %></span>
+										</div>
+									</li>
+									<li class="list-group-item border-0 ps-0 pt-0 text-sm">
+										<div class="form-group">
+											<span>Pontential Increase:</span>
+											<span><%- increase %></span>
+										</div>
+									</li>
+									<li class="list-group-item border-0 ps-0 pt-0 text-sm">
+										<div class="form-group">
+											<span>Max Investment:</span>
+											<span><%- maxInvestment %><span>
+										</div>
+									</li>
+								</ul>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Footer -->
+		<%- include("components/__footer") %>
+	</div>
+</main>
+
+<!-- Message Bird -->
+<%- include("utils/messageBird") %>
+<!-- Fixed Plugin -->
+<%- include("components/__theme") %>
+
+<!-- Script -->
+<%- include("components/__scripts") %>
+<!-- custom scripts -->
+<script src="/dashboard/js/switch.js"></script>
+<script src="/dashboard/js/creditWallet.js"></script>
+</body>
+
+</html>

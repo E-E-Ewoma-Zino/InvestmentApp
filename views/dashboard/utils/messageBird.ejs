@@ -1,0 +1,71 @@
+<!-- message birg sends message for me -->
+<section>
+	<div id="messageBird">
+		<div>
+			<% try{ %>
+			<% bird.forEach(cry=> { %>
+			<% if(cry.message){ %>
+			<div class="fadeOut alert alert-<%= cry.alert %> text-light">
+				<%= cry.message %>
+			</div>
+			<% }else{ %>
+			<div class="alert alert-danger">
+				No Message
+			</div>
+			<%} %>
+			<% }); %>
+			<% }catch(err){ %>
+			<div class="alert alert-danger">
+				_Error: <%= err %>
+			</div>
+
+			<% } %>
+		</div>
+		<div id="messageBox"></div>
+	</div>
+</section>
+
+<script>
+	const messageBird = document.getElementById("messageBird");
+	const out = document.getElementsByClassName("fadeOut");
+
+
+	for (let i = 0; i < messageBird.firstElementChild.children.length; i++) {
+		const child = messageBird.firstElementChild.children[i];
+		const progressBar = document.createElement("span");
+
+		progressBar.style.width = "100%";
+		progressBar.style.backgroundColor = "#fff";
+		progressBar.style.height = "4px";
+		progressBar.style.zIndex = "4";
+		progressBar.style.position = "absolute";
+		progressBar.style.bottom = "0";
+		progressBar.style.left = "0";
+
+		child.style.overflow = "hidden";
+		child.appendChild(progressBar);
+
+		// animate progres bar
+		const width = child.clientWidth;
+		progressBar.animate([
+			// keyframes
+			{
+				transform: `translateX(0px)`
+			},
+			{
+				transform: `translateX(${width}px)`
+			}
+		], {
+			// timing options
+			duration: 7000
+		});
+	}
+
+	// get each message created and after 7s disable it
+	for (let i = 0; i < out.length; i++) {
+		const ele = out[i];
+		setTimeout(() => {
+			ele.remove();
+		}, 7000);
+	}
+</script>
