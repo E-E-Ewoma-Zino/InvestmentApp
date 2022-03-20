@@ -39,7 +39,7 @@ module.exports = async ({ planId, adminData }) => {
 			else return { status: 500, err: "Problem in adding admin to plan function", message: null };
 		}
 		else {
-			return { status: 202, message: "You are already in this plan", alert: "warining" };
+			return { status: 202, message: "You are already in this plan", alert: "warning" };
 		}
 	} catch (err) {
 		return { status: 500, err: err, message: "There was an error somewhere" };

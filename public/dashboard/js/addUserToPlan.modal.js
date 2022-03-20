@@ -2,8 +2,10 @@
 
 const addUserForm = document.querySelector("[data-form-addUser=\"true\"]");
 const amountEntered = addUserForm.querySelector("input");
+const investorName = document.querySelector(`[data-set-investor-name="true"]`);
 
-function getData({ adminId, planId }) {
+function getData({ adminName, adminId, planId }) {
+	investorName.innerText = adminName;
 
 	addUserForm.addEventListener("submit", (e) => {
 		e.preventDefault();

@@ -2,7 +2,7 @@
 const bird = require("../utils/messageBird");
 const Users = require("../schema/Users");
 const passport = require("passport");
-const AppWallet = require("../models/AppWallet");
+const AppWallet = require("../models/appWallet");
 const users = require("../models/user");
 const error500 = require("../controller/errors/error500");
 

@@ -1,11 +1,11 @@
 <!-- Head -->
-<%- include("components/__head") %>
+<%- include("partials/__head") %>
 <!-- Sidebar -->
-<%- include("components/__sidebar") %>
+<%- include("partials/__sidebar") %>
 <% const { firstname, lastname, username, profilePic, method, increase, duration, maxInvestment, description } = userInfo %>
 <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg ">
 	<!-- Navbar -->
-	<%- include("components/__navbar") %>
+	<%- include("partials/__navbar") %>
 	<!--  -->
 	<div class="container-fluid">
 		<div class="page-header d-flex justify-content-end min-height-300 border-radius-md mt-4"
@@ -102,17 +102,17 @@
 			</div>
 		</section>
 		<!-- Footer -->
-		<%- include("components/__footer") %>
+		<%- include("partials/__footer") %>
 	</div>
 </main>
 
 <!-- Message Bird -->
 <%- include("utils/messageBird") %>
 <!-- Fixed Plugin -->
-<%- include("components/__theme") %>
+<%- include("partials/__theme") %>
 
 <!-- Script -->
-<%- include("components/__scripts") %>
+<%- include("partials/__scripts") %>
 <!-- custom scripts -->
 <script src="/dashboard/js/switch.js"></script>
 <script src="/dashboard/js/creditWallet.js"></script>

@@ -9,7 +9,7 @@ module.exports = ({ foundAdmin: admin, foundPlan: plan, userData: user, amountIn
 		pass = false;
 		message = "Admins can not join a plan";
 	}	// check if the user is already in the plan
-	else if (user.userActivePlan.filter(aPlans => aPlans.toString() == plan._id.toString()).length) {
+	else if (user.userActivePlan.filter(aPlans => aPlans.plan.toString() == plan._id.toString()).length) {
 		pass = false;
 		message = "You are already on this plan, wait until it gets resolved or you can cancel it";
 	}	// check if adminId inputed is an admin

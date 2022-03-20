@@ -21,9 +21,9 @@ module.exports = async ({ adminData, userId, planId, investmentOutCome }) => {
 	if (!getVerPlan) return { message: null, err: `Could not find the planHistory`, status: 404 };
 
 	// verification before this requset can be processed
-	const verify = verifyResolvePlan({adminData, verifiedPlanHistory: getVerPlan, userData: foundUser, planData: foundPlan});
-	if (!verify.test)  return {err: verify.message, status: 403, message: "You are not allowed to make this request"};
-	
+	const verify = verifyResolvePlan({ adminData, verifiedPlanHistory: getVerPlan, userData: foundUser, planData: foundPlan });
+	if (!verify.test) return { err: verify.message, alert: "warning", status: 403, message: "You are not allowed to make this request" };
+
 	// remove user form plan
 	const removedUserFromPlan = await plans.update({
 		itemToupdateId: { _id: foundPlan._id },
@@ -32,36 +32,36 @@ module.exports = async ({ adminData, userId, planId, investmentOutCome }) => {
 		updateValue: foundUser._id
 	});
 	if (!removedUserFromPlan) return { message: null, err: `Could not remove the user ${foundUser._id} from the ${foundPlan._id}`, status: 501 };
-	
+
 	// remove plan from user
 	const removedPlanFromUser = await user.update({
-		itemToupdateId: { _id: foundUser._id },
+		itemToupdateId: { _id: foundUser._id, "userActivePlan.$.plan": foundPlan._id },
 		propertyToUpdate: "userActivePlan",
 		optionsToUse: "$pull",
-		updateValue: foundPlan._id
+		updateValue: { plan: foundPlan._id  }
 	});
 	if (!removedPlanFromUser) return { message: null, err: `Could not remove the plan ${foundPlan._id} from the ${foundUser._id}`, status: 501 };
-	
+
 	// remove the user from the adminsActivePlan.user
 	const removeUserFromAdmin = await user.update({
 		itemToupdateId: { _id: adminData._id, "adminActivePlan.plan": foundPlan._id },
-		propertyToUpdate: "adminActivePlan.$.user.id",
+		propertyToUpdate: "adminActivePlan.$.user",
 		optionsToUse: "$pull",
-		updateValue: foundUser._id
+		updateValue: { id: foundUser._id }
 	});
 	if (!removeUserFromAdmin) return { err: `Could not remove the user ${foundUser._id} form the admin ${adminData._id} `, status: 501, message: null };
 
 	console.log("outcone".america);
 	// make a transfer from admin to the user 
-	const {status: transfer_status, err: transfer_err, message: transfer_message} = await transfer({
+	const { status: transfer_status, err: transfer_err, message: transfer_message } = await transfer({
 		amountToTransfer: investmentOutCome,
 		userData: adminData,
 		transferTo: foundUser._id,
 		description: "Resolved",
 		methodOfPayment: "App Transfer"
 	});
-	if(transfer_err) return {err: transfer_err, status: transfer_status, message: transfer_message};
-	
+	if (transfer_err) return { err: transfer_err, status: transfer_status, message: transfer_message };
+
 	// update the plan history for the admin and user. They both share the same plan history
 	const updatePlanHistory = await planHistory.update({
 		itemToupdateId: { _id: getVerPlan[getVerPlan.length - 1]._id },
@@ -69,10 +69,10 @@ module.exports = async ({ adminData, userId, planId, investmentOutCome }) => {
 		optionsToUse: "$set",
 		updateValue: investmentOutCome
 	});
-	
-	if(!updatePlanHistory) return {err: "Could not update the planHistory with the investmentOutCome", status: 500, message: null};
-	
-	if(removedUserFromPlan && removedPlanFromUser && removeUserFromAdmin && !transfer_err && updatePlanHistory) return { message: "Successfully resolved user", err: null, status: 200 }
+
+	if (!updatePlanHistory) return { err: "Could not update the planHistory with the investmentOutCome", status: 500, message: null };
+
+	if (removedUserFromPlan && removedPlanFromUser && removeUserFromAdmin && !transfer_err && updatePlanHistory) return { message: "Successfully resolved user", err: null, status: 200 }
 	else return { status: 500, err: "Problem: Something went wrong while resolving this plan", message: null };
 
 	// NOTE: Notify the user that he has bee resolved

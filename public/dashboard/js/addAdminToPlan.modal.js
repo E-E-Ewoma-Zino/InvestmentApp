@@ -8,7 +8,7 @@ addAdminBtn.addEventListener("click", (e) => {
 		plan: e.target.value
 	}
 
-	console.log("e", e.target.value);
+	// console.log("e", e.target.value);
 	axios.patch("/api/addAdminToPlan", data, {
 		delay: 3000
 	}).then((res) => {

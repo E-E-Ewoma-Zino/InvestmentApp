@@ -1,11 +1,11 @@
 <!-- Head -->
-<%- include("components/__head") %>
+<%- include("partials/__head") %>
 <!-- Sidebar -->
-<%- include("components/__sidebar") %>
+<%- include("partials/__sidebar") %>
 
 <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg ">
 	<!-- Navbar -->
-	<%- include("components/__navbar") %>
+	<%- include("partials/__navbar") %>
 
 	<!--  -->
 
@@ -77,10 +77,10 @@
 						<button data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-warning m-0">Join
 							Plan</button>
 						<% }else{ %>
-						<button data-bs-toggle="modal" data-bs-target="#exampleModal"
-							class="btn bg-gradient-danger m-0 text-nowrap">Leave Plan</button>
-							<!-- TODO: Resolve a user -->
-							<button data-bs-toggle="modal" data-bs-target="#exampleModal2" class="btn bg-gradient-primary m-0 mx-2 text-nowrap">Resolve user</button>
+						<button data-bs-toggle="modal" data-bs-target="#modal-leavePlan" class="btn bg-gradient-danger m-0 text-nowrap">Leave Plan</button>
+						<!-- TODO: Resolve a user -->
+						<button data-bs-toggle="modal" data-bs-target="#exampleModal2"
+							class="btn bg-gradient-primary m-0 mt-3 mt-md-0 m mx-md-2 text-nowrap">Resolve user</button>
 						<% } %>
 					</div>
 				</div>
@@ -206,27 +206,36 @@
 
 		</div>
 		<!-- Footer -->
-		<%- include("components/__footer") %>
+		<%- include("partials/__footer") %>
 	</div>
 </main>
 
 <!-- Add admin to plan  modal -->
-<%- include("utils/addAdminToPlan.Modal.ejs") %>
+<%- include("components/addAdminToPlan.Modal.ejs") %>
 <!-- Add admin to plan  modal -->
-<%- include("utils/activeUsers.modal.ejs") %>
+<%- include("components/resolveUsers.modal.ejs") %>
+<!-- Leave Plan modal -->
+<%- include("components/leavePlan.modal.ejs") %>
 <!-- Message Bird -->
 <%- include("utils/messageBird") %>
 <!-- Fixed Plugin -->
-<%- include("components/__theme") %>
+<%- include("partials/__theme") %>
 <!--  -->
 <!-- Script -->
-<%- include("components/__scripts") %>
+<%- include("partials/__scripts") %>
 <script src="/dashboard/js/addAdminToPlan.modal.js"></script>
-<!--  -->
+<script src="/dashboard/js/resolveUser.modal.js"></script>
 <script>
-	function showActiveUsers(data) {
-		console.log("data", data);
-	}
+	const leavePlan = document.querySelector(`[data-leavePlan="true"]`);
+
+	leavePlan.addEventListener("click", e => {
+		console.log(e.target.value);
+		messager({
+			alert: "primary",
+			duration: 3333333,
+			message: e.target.value
+		});
+	});
 </script>
 </body>
 

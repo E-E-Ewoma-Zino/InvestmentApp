@@ -2,8 +2,8 @@
 
 const newPlanForm = document.querySelector("[data-create-plan=\"true\"]");
 const planInput = newPlanForm.querySelectorAll("input");
-const planTextArea = newPlanForm.querySelectorAll("textarea").entries;
-const planFormData = [...planInput, planTextArea];
+const planTextArea = newPlanForm.querySelectorAll("textarea");
+const planFormData = [...planInput, ...planTextArea];
 
 newPlanForm.addEventListener("submit", (e) => {
 	e.preventDefault();
