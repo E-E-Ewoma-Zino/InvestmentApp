@@ -1,6 +1,6 @@
 // This script will use the models to credit the user wallet
 const { Convert } = require("easy-currencies");
-const appWallet = require("../models/AppWallet");
+const appWallet = require("../models/appWallet");
 const appManager = require("../models/appManager");
 const transactionHistory = require("../models/transactionHistory");
 const user = require("../models/user");

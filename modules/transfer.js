@@ -1,6 +1,6 @@
 // This script helps with the transfer of money between user
 
-const appWallet = require("../models/AppWallet");
+const appWallet = require("../models/appWallet");
 const transactionHistory = require("../models/transactionHistory");
 const user = require("../models/user");
 

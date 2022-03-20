@@ -1,6 +1,6 @@
 // This script adds a user to a plan and makes the required transactions
 
-const AppWallet = require("../models/AppWallet");
+const AppWallet = require("../models/appWallet");
 const plans = require("../models/plans");
 const user = require("../models/user");
 const planHistory = require("../models/planHistory");
