@@ -4,7 +4,7 @@ const appWallet = require("../models/AppWallet");
 const appManager = require("../models/appManager");
 const transactionHistory = require("../models/transactionHistory");
 const user = require("../models/user");
-const colors = require("colors");
+// const colors = require("colors");
 
 module.exports = async ({ amountToCredit, currency, userData, methodOfPayment, alert, description }) => {
 	try {
