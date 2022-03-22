@@ -24,6 +24,16 @@ module.exports = async ({ adminData, userId, planId, investmentOutCome }) => {
 	const verify = verifyResolvePlan({ adminData, verifiedPlanHistory: getVerPlan, userData: foundUser, planData: foundPlan });
 	if (!verify.test) return { err: verify.message, alert: "warning", status: 403, message: "You are not allowed to make this request" };
 
+	// make a transfer from admin to the user 
+	const { status: transfer_status, err: transfer_err, message: transfer_message } = await transfer({
+		amountToTransfer: investmentOutCome,
+		userData: adminData,
+		transferTo: foundUser._id,
+		description: "Resolved",
+		methodOfPayment: "App Transfer"
+	});
+	if (transfer_err) return { err: transfer_err, status: transfer_status, message: transfer_message };
+
 	// remove user form plan
 	const removedUserFromPlan = await plans.update({
 		itemToupdateId: { _id: foundPlan._id },
@@ -50,17 +60,6 @@ module.exports = async ({ adminData, userId, planId, investmentOutCome }) => {
 		updateValue: { id: foundUser._id }
 	});
 	if (!removeUserFromAdmin) return { err: `Could not remove the user ${foundUser._id} form the admin ${adminData._id} `, status: 501, message: null };
-
-	console.log("outcone".america);
-	// make a transfer from admin to the user 
-	const { status: transfer_status, err: transfer_err, message: transfer_message } = await transfer({
-		amountToTransfer: investmentOutCome,
-		userData: adminData,
-		transferTo: foundUser._id,
-		description: "Resolved",
-		methodOfPayment: "App Transfer"
-	});
-	if (transfer_err) return { err: transfer_err, status: transfer_status, message: transfer_message };
 
 	// update the plan history for the admin and user. They both share the same plan history
 	const updatePlanHistory = await planHistory.update({

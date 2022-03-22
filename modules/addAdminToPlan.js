@@ -5,7 +5,7 @@ const user = require("../models/user");
 
 module.exports = async ({ planId, adminData }) => {
 	// check if admin inputed is an admin
-	if (!adminData.authLevel) return { status: 403, message: "You do not have access to be added to this plan" };
+	if (!adminData.authLevel) return { status: 403, err: "You do not have access to be added to this plan", message: "Not allowed!" };
 
 	try {
 		// get the plan from the planId to know if it is valid

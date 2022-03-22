@@ -15,7 +15,7 @@
 			<!-- COMMENT: App wallet here -->
 			<div class="header">
 				<h1 class="display-1 text-light text-bold">
-					Basic Plan
+				<%- plan.name %>
 				</h1>
 			</div>
 			<span class="mask bg-gradient-secondary opacity-6"></span>
@@ -77,7 +77,8 @@
 						<button data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-warning m-0">Join
 							Plan</button>
 						<% }else{ %>
-						<button data-bs-toggle="modal" data-bs-target="#modal-leavePlan" class="btn bg-gradient-danger m-0 text-nowrap">Leave Plan</button>
+						<button data-bs-toggle="modal" data-bs-target="#modal-leavePlan"
+							class="btn bg-gradient-danger m-0 text-nowrap">Leave Plan</button>
 						<!-- TODO: Resolve a user -->
 						<button data-bs-toggle="modal" data-bs-target="#exampleModal2"
 							class="btn bg-gradient-primary m-0 mt-3 mt-md-0 m mx-md-2 text-nowrap">Resolve user</button>
@@ -225,18 +226,7 @@
 <%- include("partials/__scripts") %>
 <script src="/dashboard/js/addAdminToPlan.modal.js"></script>
 <script src="/dashboard/js/resolveUser.modal.js"></script>
-<script>
-	const leavePlan = document.querySelector(`[data-leavePlan="true"]`);
-
-	leavePlan.addEventListener("click", e => {
-		console.log(e.target.value);
-		messager({
-			alert: "primary",
-			duration: 3333333,
-			message: e.target.value
-		});
-	});
-</script>
+<script src="/dashboard/js/leavePlan.js"></script>
 </body>
 
 </html>

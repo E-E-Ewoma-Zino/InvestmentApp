@@ -44,6 +44,7 @@ function messager(data) {
 	$("[data-bird=\"messageBird\"]").fadeIn(() => {
 		setTimeout(() => {
 			messageBird.remove();
-		}, data.duration || 6000)
+			if (data.method) return data.method();
+		}, data.duration || 6000);
 	});
 }

@@ -38,14 +38,14 @@ module.exports = async (req, res) => {
 				}
 			}]);
 			if (!data.userData) bird.message("danger", "Could not load up user");
-
+			
 			// return res.send(data.userData);
 			return res.render("dashboard/adminPlanPage", {
 				title: "Dashboard",
 				bird: bird.fly,
 				user: req.user,
 				plan: data.planData,
-				activeUsers: data.userData.adminActivePlan
+				activeUsers: data.userData.adminActivePlan.filter( activePlan => activePlan.plan._id.toString() == data.planData._id.toString() )
 			});
 		}
 		else return res.render("dashboard/userPlanPage", {

@@ -22,9 +22,9 @@ for (let i = 0; i < resolveForm.length; i++) {
 				duration: 3000
 			});
 		}).catch(err => {
-			console.error(err.response);
+			console.error("err", err.response);
 			messager({
-				alert: res.response.data.alert || "danger",
+				alert: err.response.data.alert || "danger",
 				message: err.response.data.err,
 				duration: 6000
 			});

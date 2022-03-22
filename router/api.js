@@ -8,6 +8,7 @@ const addAdminToPlan = require("../api/addAdminToPlan");
 const addUserToPlan = require("../api/addUserToPlan");
 const resolvePlan = require("../api/resolveUser");
 const getRetuest = require("../api/getRequest");
+const leavePlan = require("../api/leavePlan");
 
 const router = express.Router();
 // ====== GET ======
@@ -48,6 +49,9 @@ router.patch("/addUserToPlan", userAndAdmin, (req, res) => addUserToPlan(req, re
 // @desc	Resolve a user
 // @route	api/resolveuser
 router.patch("/resolveuser", userAndAdmin, (req, res) => resolvePlan(req, res));
+// @desc	Resolve a user
+// @route	api/resolveuser
+router.patch("/leavePlan", userAndAdmin, (req, res) => leavePlan(req, res));
 
 
 module.exports = router;

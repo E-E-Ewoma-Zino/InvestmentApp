@@ -32,8 +32,8 @@
 							</tr>
 						</thead>
 						<tbody>
-							<% activeUsers.forEach( users => { %>
-							<% users.user.forEach( (user, index) => { %>
+							<% if(activeUsers.length){ %>
+							<% activeUsers[0].user.forEach( user => { %>
 							<tr>
 								<td>
 									<a href="/dashboard/view/<%- user.id.firstname %>?id=<%- user.id._id %>"
@@ -52,15 +52,16 @@
 									</a>
 								</td>
 								<td class="align-middle text-center">
-									<span class=""><%- users.plan.name %></span>
+									<span class=""><%- activeUsers[0].plan.name %></span>
 								</td>
 								<td class="align-middle text-center">
 									<span class=""><%- user.amount %></span>
 								</td>
 								<form data-resolve-user="true">
 									<td>
-										<input type="number" name="amount" class="form-control w-100">
-										<input type="hidden" name="plan" value="<%- users.plan._id %>">
+										<input type="number" name="amount" class="form-control w-100" placeholder="0.00"
+											value="0">
+										<input type="hidden" name="plan" value="<%- activeUsers[0].plan._id %>">
 										<input type="hidden" name="user" value="<%- user.id._id %>">
 									</td>
 									<td>
@@ -71,7 +72,9 @@
 								</form>
 							</tr>
 							<% }); %>
-							<% }) %>
+							<% }else{ %> 
+								<h5 class="text-muted">No active investment.</h5>
+								<% } %>
 						</tbody>
 					</table>
 				</div>
