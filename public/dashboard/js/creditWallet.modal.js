@@ -23,12 +23,15 @@ creditWallet.addEventListener("submit", e => {
 	axios.patch("/api/credit", data).then((res) => {
 		console.log("me", res);
 		messager({
+			progressBar: true,
+			method: () => location.reload(),
 			alert: "primary",
 			message: "Wallet Credited"
 		});
 
 	}).catch(err => {
 		messager({
+			progressBar: true,
 			alert: err.response.data.alert || "danger",
 			message: err.response.data.err
 		});

@@ -24,11 +24,12 @@ $(() => {
 	appSwitch.addEventListener("click", (e) => {
 		disableSection(settingSection);
 		enableSection(appSection);
+		location.hash = "#app";
 	});
 
 	// show setting section
 	settingSwitch.addEventListener("click", (e) => {
-
+		location.hash = "#settings";
 		disableSection(appSection);
 		enableSection(settingSection);
 	});

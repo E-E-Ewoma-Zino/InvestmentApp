@@ -7,12 +7,15 @@ leavePlan.addEventListener("click", e => {
 	}).then(res => {
 		// console.log("res", res);
 		messager({
+			progressBar: true,
+			method: () => location.reload(),
 			alert: res.data.alert || "success",
 			duration: 3000,
 			message: res.data.message
 		});
 	}).catch(error => {
 		messager({
+			progressBar: true,
 			alert: error.response.data.alert || "danger",
 			duration: 6000,
 			message: error.response.data.err

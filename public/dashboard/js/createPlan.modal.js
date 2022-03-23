@@ -22,6 +22,8 @@ newPlanForm.addEventListener("submit", (e) => {
 		console.log("res", res.data);
 
 		messager({
+			progressBar: true,
+			method: () => location.reload(),
 			alert: "success",
 			message: res.data.message,
 			duration: 3000
@@ -30,6 +32,7 @@ newPlanForm.addEventListener("submit", (e) => {
 		console.log("err", err.message);
 
 		messager({
+			progressBar: true,
 			alert: err.response.data.alert || "danger",
 			message: err.response.data.err,
 			duration: 6000

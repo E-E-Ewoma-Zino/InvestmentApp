@@ -20,12 +20,15 @@ function getData({ adminName, adminId, planId }) {
 			console.log("res", res);
 
 			messager({
+				progressBar: true,
+				method: () => location.reload(),
 				alert: "success",
 				message: res.data.message,
 				duration: 3000
 			});
 		}).catch((err) => {
 			messager({
+				progressBar: true,
 				alert: err.response.data.alert || "danger",
 				message: err.response.data.err,
 				duration: 5000

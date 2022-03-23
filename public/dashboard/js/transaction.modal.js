@@ -35,8 +35,9 @@ function openTransaction(data) {
 		// format the time of the transaction
 		let time = `${d} - ${m} - ${y}`;
 		createdAt.innerHTML = time;
-	}catch(err){
+	} catch (err) {
 		messager({
+			progressBar: false,
 			alert: "danger",
 			message: err.message,
 			duration: 3000

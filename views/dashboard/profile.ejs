@@ -2,7 +2,7 @@
 <%- include("partials/__head") %>
 <!-- Sidebar -->
 <%- include("partials/__sidebar") %>
-<% const { appWallet, transactionHistory, firstname, lastname, username, phoneNo, profilePic, authLevel } = data %>
+<% const { appWallet, transactionHistory, firstname, lastname, username, phoneNo, profilePic, authLevel, ...others } = data %>
 <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg ">
 	<!-- Navbar -->
 	<%- include("partials/__navbar") %>
@@ -378,8 +378,7 @@
 												<a href="javascript:void(0);"
 													class="text-secondary font-weight-bold text-xs"
 													data-toggle="tooltip" data-original-title="Edit user"
-													data-bs-toggle="modal" data-bs-target="#exampleModal" 
-													onclick="openTransaction({
+													data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="openTransaction({
 														description: `<%- transaction.description %>`,
 														status: `<%- transaction.status %>`,
 														alert: `<%- transaction.alert %>`,
@@ -410,50 +409,50 @@
 						<div class="card-body p-3">
 							<div class="row">
 								<% plans.forEach(plan => { %>
-									<div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-4">
-										<div class="card card-blog card-plain">
-											<div class="position-relative">
-												<a href="/dashboard/plan/<%- plan.name %> ?id=<%- plan._id %>"
-													class="d-block shadow-md border-radius-md">
-													<img src="/dashboard/img/home-decor-1.jpg" alt="img-blur-shadow"
-														class="img-fluid shadow border-radius-md">
-												</a>
-											</div>
-											<div class="card-body px-1 pb-0">
-												<p class="text-gradient text-dark mb-2 text-sm">Project #2</p>
+								<div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-4">
+									<div class="card card-blog card-plain">
+										<div class="position-relative">
+											<a href="/dashboard/plan/<%- plan.name %> ?id=<%- plan._id %>"
+												class="d-block shadow-md border-radius-md">
+												<img src="/dashboard/img/home-decor-1.jpg" alt="img-blur-shadow"
+													class="img-fluid shadow border-radius-md">
+											</a>
+										</div>
+										<div class="card-body px-1 pb-0">
+											<p class="text-gradient text-dark mb-2 text-sm">Project #2</p>
+											<a href="/dashboard/plan/<%- plan.name %> ?id=<%- plan._id %>">
+												<h5>
+													<%- plan.name %>
+												</h5>
+											</a>
+											<!-- TODO: Add a plan description here -->
+											<p class="mb-4 text-sm"><%- plan.description %> </p>
+											<div class="d-flex align-items-center justify-content-between">
 												<a href="/dashboard/plan/<%- plan.name %> ?id=<%- plan._id %>">
-													<h5>
-														<%- plan.name %>
-													</h5>
+													<button type="button"
+														class="btn btn-outline-primary btn-sm mb-0">View
+														More</button>
 												</a>
-												<!-- TODO: Add a plan description here -->
-												<p class="mb-4 text-sm"><%- plan.description %> </p>
-												<div class="d-flex align-items-center justify-content-between">
-													<a href="/dashboard/plan/<%- plan.name %> ?id=<%- plan._id %>">
-														<button type="button"
-															class="btn btn-outline-primary btn-sm mb-0">View
-															More</button>
+												<!-- TODO: Show admins who are in this plan here -->
+												<div class="avatar-group mt-2">
+													<% plan.activeAdmins.forEach( admin => { %>
+													<a href="/dashboard/view/<%- admin.firstname %>?id=<%- admin._id %>"
+														class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip"
+														data-bs-placement="bottom" title="<%- admin.firstname %>">
+														<% if(admin.profilePic){ %>
+														<img alt="Image placeholder"
+															src="/<%- admin.profilePic.path %> ">
+														<% }else{ %>
+														<span
+															class="d-flex justify-content-center align-items-center avatar avatar-xs rounded-circle text-uppercase bg-gradient-primary"><%- admin.firstname.substr(0, 1) %></span>
+														<% } %>
 													</a>
-													<!-- TODO: Show admins who are in this plan here -->
-													<div class="avatar-group mt-2">
-														<% plan.activeAdmins.forEach( admin => { %>
-														<a href="/dashboard/view/<%- admin.firstname %>?id=<%- admin._id %>"
-															class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip"
-															data-bs-placement="bottom" title="<%- admin.firstname %>">
-															<% if(admin.profilePic){ %>
-															<img alt="Image placeholder"
-																src="/<%- admin.profilePic.path %> ">
-															<% }else{ %>
-															<span
-																class="d-flex justify-content-center align-items-center avatar avatar-xs rounded-circle text-uppercase bg-gradient-primary"><%- admin.firstname.substr(0, 1) %></span>
-															<% } %>
-														</a>
-														<% }) %>
-													</div>
+													<% }) %>
 												</div>
 											</div>
 										</div>
 									</div>
+								</div>
 								<% }); %>
 								<% if(user.authLevel > 1){ %>
 								<div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-4">
@@ -500,30 +499,38 @@
 									<li class="list-group-item border-0 ps-0 pt-0 text-sm">
 										<div class="form-group">
 											<label for="changeFirstname">First name</label>
-											<input type="text" class="form-control" name="firstname"
-												id="changeFirstname" placeholder="<%- firstname %>"
+											<input type="text" class="form-control" data-firstname="true"
+												name="firstname" id="changeFirstname" placeholder="<%- firstname %>"
 												value="<%- firstname %>">
 										</div>
 									</li>
 									<li class="list-group-item border-0 ps-0 pt-0 text-sm">
 										<div class="form-group">
 											<label for="changeLastname">Last name</label>
-											<input type="text" class="form-control" name="lastname" id="changeLastname"
-												placeholder="<%- lastname %>" value="<%- lastname %>">
+											<input type="text" class="form-control" data-lastname="true" name="lastname"
+												id="changeLastname" placeholder="<%- lastname %>"
+												value="<%- lastname %>">
 										</div>
 									</li>
 									<li class="list-group-item border-0 ps-0 pt-0 text-sm">
 										<div class="form-group">
 											<label for="changePhoneNo">Phone no</label>
-											<input type="text" class="form-control" name="phoneNo" id="changePhoneNo"
-												placeholder="<%- phoneNo %>" value="<%- phoneNo %>">
+											<input type="text" class="form-control" data-phoneNo="true" name="phoneNo"
+												id="changePhoneNo" placeholder="<%- phoneNo %>" value="<%- phoneNo %>">
 										</div>
 									</li>
 									<li class="list-group-item border-0 ps-0 pt-0 text-sm">
 										<div class="form-group">
-											<label for="changePassword">Change Password</label>
-											<input type="password" class="form-control" name="password"
-												id="changePassword" placeholder="password">
+											<label for="changePassword">Previous Password</label>
+											<input type="password" class="form-control" data-password="previous"
+												name="password" id="oldPassword" placeholder="password">
+										</div>
+									</li>
+									<li class="list-group-item border-0 ps-0 pt-0 text-sm">
+										<div class="form-group">
+											<label for="changePassword">New Password</label>
+											<input type="password" class="form-control" data-password="new"
+												name="password" id="newPassword" placeholder="password">
 										</div>
 									</li>
 								</ul>
@@ -595,64 +602,66 @@
 					</div>
 				</div>
 				<% if(authLevel) { %>
-					<div class="col-12 col-md-4">
-						<div class="card h-100">
-							<div class="card-header pb-0 p-3">
-								<div class="row">
-									<div class="col-md-8 d-flex align-items-center">
-										<h6 class="mb-0">Plan Information</h6>
-									</div>
-									<div class="col-md-4 text-end">
-										<a href="javascript:;">
-											<i class="fas fa-user-edit text-secondary text-sm" data-bs-toggle="tooltip"
-												data-bs-placement="top" title="" data-bs-original-title="Edit Profile"
-												aria-label="Edit Profile"></i>
-										</a>
-									</div>
+				<div class="col-12 col-md-4">
+					<div class="card h-100">
+						<div class="card-header pb-0 p-3">
+							<div class="row">
+								<div class="col-md-8 d-flex align-items-center">
+									<h6 class="mb-0">Plan Information</h6>
+								</div>
+								<div class="col-md-4 text-end">
+									<a href="javascript:;">
+										<i class="fas fa-user-edit text-secondary text-sm" data-bs-toggle="tooltip"
+											data-bs-placement="top" title="" data-bs-original-title="Edit Profile"
+											aria-label="Edit Profile"></i>
+									</a>
 								</div>
 							</div>
-							<div class="card-body p-3">
-								<form role="form text-left">
-									<div class="form-group">
-										<label class="lead" for="changePlanDescription">How I work</label>
-										<textarea class="form-control text-sm" id="changePlanDescription" rows="4">
-											Hi, I’m Alec Thompson, Decisions: If you can’t decide, the answer is no. If two
-											equally
-											difficult paths, choose the one more painful in the short term (pain avoidance is
-											creating an illusion of equality).
-										</textarea>
-									</div>
-									<hr class="horizontal gray-light my-4">
-									<ul class="list-group">
-										<li class="list-group-item border-0 ps-0 pt-0 text-sm">
-											<div class="form-group">
-												<label for="changeMethod">Method</label>
-												<input type="text" class="form-control" name="method" id="changeMethod"
-													placeholder="Block Chain" value="Block Chain">
-											</div>
-										</li>
-										<li class="list-group-item border-0 ps-0 pt-0 text-sm">
-											<div class="form-group">
-												<label for="chageDuration">Duration</label>
-												<input type="text" class="form-control" name="duration" id="chageDuration"
-													placeholder="2/3days" value="2/3days">
-											</div>
-										</li>
-										<li class="list-group-item border-0 ps-0 pt-0 text-sm">
-											<div class="form-group">
-												<label for="changeIncrease">Pontential Increase</label>
-												<input type="text" class="form-control" name="increase" id="changeIncrease"
-													placeholder="2%" value="2%">
-											</div>
-										</li>
-									</ul>
-								</form>
-							</div>
+						</div>
+						<div class="card-body p-3">
+							<form role="form text-left">
+								<div class="form-group">
+									<label class="lead" for="changePlanDescription">How I work</label>
+									<textarea class="form-control text-sm" data-description="true"
+										id="changePlanDescription" rows="4"
+										placeholder="Describe how you work..."><%- others._doc.description %></textarea>
+								</div>
+								<hr class="horizontal gray-light my-4">
+								<ul class="list-group">
+									<li class="list-group-item border-0 ps-0 pt-0 text-sm">
+										<div class="form-group">
+											<label for="changeMethod">Method</label>
+											<input type="text" class="form-control" data-method="true" name="method"
+												id="changeMethod" placeholder="<%- others._doc.method %>"
+												value="<%- others._doc.method %>">
+										</div>
+									</li>
+									<li class="list-group-item border-0 ps-0 pt-0 text-sm">
+										<div class="form-group">
+											<label for="chageDuration">Duration</label>
+											<input type="text" class="form-control" data-duration="true" name="duration"
+												id="chageDuration" placeholder="<%- others._doc.duration %>"
+												value="<%- others._doc.duration %>">
+										</div>
+									</li>
+									<li class="list-group-item border-0 ps-0 pt-0 text-sm">
+										<div class="form-group">
+											<label for="changeIncrease">Pontential Increase</label>
+											<input type="number" class="form-control" data-increase="true"
+												name="increase" id="changeIncrease"
+												placeholder="<%- others._doc.increase %>"
+												value="<%- others._doc.increase %>">
+										</div>
+									</li>
+								</ul>
+							</form>
 						</div>
 					</div>
+				</div>
 				<% } %>
 				<div class="col-12 d-flex justify-content-center">
-					<button class="btn btn-info btn-gradient-primary btn-lg mt-5">Save</button>
+					<button data-update-profile="save"
+						class="btn btn-info btn-gradient-primary btn-lg mt-5">Save</button>
 				</div>
 			</div>
 		</section>
@@ -683,7 +692,83 @@
 <script src="/dashboard/js/creditWallet.modal.js"></script>
 <script src="/dashboard/js/transaction.modal.js"></script>
 <script>
-	console.log("Testing");
+	const settingsPData = {
+		firstname: document.querySelector(`[data-firstname]`).value,
+		lastname: document.querySelector(`[data-lastname]`).value,
+		phoneNo: document.querySelector(`[data-phoneNo]`).value,
+		previousPassword: document.querySelector(`[data-password="previous"]`).value,
+		newPassword: document.querySelector(`[data-password="new"]`).value,
+		description: document.querySelector(`[data-description]`) && document.querySelector(`[data-description]`).value,
+		method: document.querySelector(`[data-method]`) && document.querySelector(`[data-method]`).value,
+		duration: document.querySelector(`[data-duration]`) && document.querySelector(`[data-duration]`).value,
+		increase: document.querySelector(`[data-increase]`) && document.querySelector(`[data-increase]`).value
+	}
+
+	const updateProfileBtn = document.querySelector(`[data-update-profile]`);
+	updateProfileBtn.addEventListener("click", e => {
+		const settingsData = {
+			firstname: document.querySelector(`[data-firstname]`).value,
+			lastname: document.querySelector(`[data-lastname]`).value,
+			phoneNo: document.querySelector(`[data-phoneNo]`).value,
+			previousPassword: document.querySelector(`[data-password="previous"]`).value,
+			newPassword: document.querySelector(`[data-password="new"]`).value,
+			description: document.querySelector(`[data-description]`) && document.querySelector(
+				`[data-description]`).value,
+			method: document.querySelector(`[data-method]`) && document.querySelector(`[data-method]`).value,
+			duration: document.querySelector(`[data-duration]`) && document.querySelector(`[data-duration]`)
+				.value,
+			increase: document.querySelector(`[data-increase]`) && document.querySelector(`[data-increase]`)
+				.value
+		};
+		const profileUpdateMade = {};
+		for (s in settingsData) {
+			if (settingsPData[s] == settingsData[s]) {
+				// console.log(s, "not");
+			} else {
+				// if(s == previousPassword){
+
+				// }
+				profileUpdateMade[s] = settingsData[s];
+			}
+		}
+
+		// check if previousPassword is exist then check if user entered a new password 
+		if(profileUpdateMade["previousPassword"]){
+			if(!profileUpdateMade["newPassword"]) return messager({
+				alert: "danger",
+				message: "Enter a new password!",
+				duration: 3000,
+			});
+		}
+		// check if previousPassword is exist then check if user entered a new password 
+		if(profileUpdateMade["newPassword"]){
+			if(!profileUpdateMade["previousPassword"]) return messager({
+				alert: "danger",
+				message: "Enter your previous password!",
+				duration: 3000,
+			});
+		}
+
+		axios.patch("/api/updateProfile", profileUpdateMade).then(res => {
+			console.log("res", res.data);
+			messager({
+				progressBar: true,
+				alert: res.data.alert || "success",
+				message: res.data.message,
+				duration: 3000,
+				method: () => location.reload()
+			});
+		}).catch(error => {
+			console.error("error", error.response);
+			messager({
+				progressBar: true,
+				alert: error.response.data.alert || "danger",
+				message: error.response.data.message,
+				duration: 3000,
+			});
+		});
+
+	});
 </script>
 </body>
 

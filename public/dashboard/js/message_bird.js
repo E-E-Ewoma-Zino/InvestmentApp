@@ -26,7 +26,7 @@ function messager(data) {
 	message.style.color = "#fff";
 	message.innerHTML = data.message;
 	
-	messageBird.appendChild(progressBar);
+	if (data.progressBar) messageBird.appendChild(progressBar);
 	messageBird.appendChild(message);
 	messageBox.appendChild(messageBird);
 
@@ -38,13 +38,13 @@ function messager(data) {
 		{ transform: `translateX(${width}px)` }
 	], {
 		// timing options
-		duration: data.duration || 6000
+		duration: data.duration || 3000
 	});
 	// animate
 	$("[data-bird=\"messageBird\"]").fadeIn(() => {
 		setTimeout(() => {
 			messageBird.remove();
 			if (data.method) return data.method();
-		}, data.duration || 6000);
+		}, data.duration || 3000);
 	});
 }

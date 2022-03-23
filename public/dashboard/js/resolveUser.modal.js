@@ -17,6 +17,8 @@ for (let i = 0; i < resolveForm.length; i++) {
 		axios.patch("/api/resolveUser", data).then(res => {
 			console.log("data", res);
 			messager({
+				progressBar: true,
+				method: () => location.reload(),
 				alert: res.data.alert || "success",
 				message: res.data.message,
 				duration: 3000
@@ -24,6 +26,7 @@ for (let i = 0; i < resolveForm.length; i++) {
 		}).catch(err => {
 			console.error("err", err.response);
 			messager({
+				progressBar: true,
 				alert: err.response.data.alert || "danger",
 				message: err.response.data.err,
 				duration: 6000
