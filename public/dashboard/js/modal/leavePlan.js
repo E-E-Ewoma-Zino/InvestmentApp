@@ -15,7 +15,7 @@ leavePlan.addEventListener("click", e => {
 		});
 	}).catch(error => {
 		messager({
-			progressBar: true,
+			progressBar: false,
 			alert: error.response.data.alert || "danger",
 			duration: 6000,
 			message: error.response.data.err

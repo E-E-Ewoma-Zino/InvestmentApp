@@ -1,4 +1,4 @@
-const _bird = require("../middleware/messageBird");
+const bird = require("../utils/messageBird");
 const multer = require("multer");
 const path = require("path");
 
@@ -6,7 +6,7 @@ const path = require("path");
 const storage = multer.diskStorage({
 	destination: "uploads",
 	filename: (req, file, callback) => {
-		callback(null, file.fieldname + "-" + file.originalname + "-" + Date.now() + path.extname(file.originalname));
+		callback(null, file.fieldname + "-" + file.originalname.substring(0, file.originalname.length - 4) + "-" + "Zino" + Date.now() + path.extname(file.originalname));
 	}
 });
 
@@ -17,19 +17,14 @@ module.exports = multer({
 			if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg" || file.mimetype == "image/gif") {
 				cb(null, true);
 			} else {
+				bird.message("danger", "You can only upload .png, .jpg, .gif and .jpeg files!");
+				bird.message("danger", "Please re-upload a file");
 				cb(null, false);
-				_bird.message("danger", "You can only upload .png, .jpg, .gif and .jpeg files!");
-				_bird.message("danger", "Please re-upload the file");
 			}
-		}
-		if(file.fieldname === "book"){
-			if (file.mimetype == "application/pdf" || file.mimetype == "application/msword" || file.mimetype == "application/vnd.ms-excel" || file.mimetype == "application/vnd.ms-powerpoint" || file.mimetype == "text/plain") {
-				cb(null, true);
-			} else {
-				cb(null, false);
-				_bird.message("danger", "You can only upload .pdf, text/plain, .msword, .vnd.ms-excel and .vnd.ms-powerpoint files!");
-				_bird.message("danger", "Please re-upload the file");
-			}
+		}else{
+			console.log("Help multa");
+			bird.message("warning", "Invalid input field");
+			cb(null, false);
 		}
 	}
 });

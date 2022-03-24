@@ -32,7 +32,7 @@ newPlanForm.addEventListener("submit", (e) => {
 		console.log("err", err.message);
 
 		messager({
-			progressBar: true,
+			progressBar: false,
 			alert: err.response.data.alert || "danger",
 			message: err.response.data.err,
 			duration: 6000

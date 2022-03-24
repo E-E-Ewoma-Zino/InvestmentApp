@@ -31,7 +31,7 @@ creditWallet.addEventListener("submit", e => {
 
 	}).catch(err => {
 		messager({
-			progressBar: true,
+			progressBar: false,
 			alert: err.response.data.alert || "danger",
 			message: err.response.data.err
 		});

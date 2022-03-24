@@ -1,17 +1,17 @@
 const express = require("express");
-const register = require("../auth/register");
+// const colors = require("colors");
 const login = require("../auth/login");
 const logout = require("../auth/logout");
-const userAndAdmin = require("../middleware/usersAuth");
-const adminOnly = require("../middleware/adminOnly");
-const loginPage = require("../controller/dashboard/login");
-const registerPage = require("../controller/dashboard/register");
-// const colors = require("colors");
-const dashboard = require("../controller/dashboard/dashboard");
-const profile = require("../controller/dashboard/profile");
+const register = require("../auth/register");
 const view = require("../controller/dashboard/view");
 const plan = require("../controller/dashboard/plan");
+const adminOnly = require("../middleware/adminOnly");
+const userAndAdmin = require("../middleware/usersAuth");
+const profile = require("../controller/dashboard/profile");
+const loginPage = require("../controller/dashboard/login");
 const otherPage = require("../controller/dashboard/otherPage");
+const dashboard = require("../controller/dashboard/dashboard");
+const registerPage = require("../controller/dashboard/register");
 
 const router = express.Router();
 

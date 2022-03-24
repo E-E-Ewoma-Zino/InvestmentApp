@@ -26,7 +26,7 @@ for (let i = 0; i < resolveForm.length; i++) {
 		}).catch(err => {
 			console.error("err", err.response);
 			messager({
-				progressBar: true,
+				progressBar: false,
 				alert: err.response.data.alert || "danger",
 				message: err.response.data.err,
 				duration: 6000

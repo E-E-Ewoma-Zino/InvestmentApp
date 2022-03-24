@@ -10,6 +10,8 @@ $(() => {
 	const settingSection = document.getElementById("settingSection");
 	// moving tab
 	const movingTab = document.querySelector(".moving-tab");
+	// to know if the profile pic is editable
+	const profilePic = document.querySelector(`[data-profilePic]`);
 
 	// disable section
 	function disableSection(section) {
@@ -25,6 +27,9 @@ $(() => {
 		disableSection(settingSection);
 		enableSection(appSection);
 		location.hash = "#app";
+		profilePic.setAttribute("data-bs-toggle", "none");
+		profilePic.setAttribute("data-profilePic", "no-edit");
+		profilePic.setAttribute("data-bs-target", "none");
 	});
 
 	// show setting section
@@ -32,16 +37,25 @@ $(() => {
 		location.hash = "#settings";
 		disableSection(appSection);
 		enableSection(settingSection);
+		profilePic.setAttribute("data-bs-toggle", "modal");
+		profilePic.setAttribute("data-profilePic", "editable");
+		profilePic.setAttribute("data-bs-target", "#modal-form-update-profile");
 	});
 
-	if(location.hash == "#settings"){
+	if (location.hash == "#settings") {
 		movingTab.style.width = "103px";
+		profilePic.setAttribute("data-bs-toggle", "modal");
+		profilePic.setAttribute("data-profilePic", "editable");
+		profilePic.setAttribute("data-bs-target", "#modal-form-update-profile");
 		movingTab.style.transform = "translate3d(194px, 0px, 0px)";
 		disableSection(appSection);
 		enableSection(settingSection);
-	}else{
+	} else {
 		movingTab.style.width = "81px";
 		movingTab.style.transform = "translate3d(0px, 0px, 0px)";
+		profilePic.setAttribute("data-bs-toggle", "none");
+		profilePic.setAttribute("data-profilePic", "no-edit");
+		profilePic.setAttribute("data-bs-target", "none");
 		disableSection(settingSection);
 		enableSection(appSection);
 	}

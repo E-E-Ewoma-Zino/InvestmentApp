@@ -15,7 +15,7 @@
 			<!-- COMMENT: App wallet here -->
 			<div class="header">
 				<h1 class="display-1 text-light text-bold">
-				<%- plan.name %>
+					<%- plan.name %>
 				</h1>
 			</div>
 			<span class="mask bg-gradient-secondary opacity-6"></span>
@@ -23,7 +23,7 @@
 		<div class="card card-body blur shadow-blur mx-4 mt-n6 overflow-hidden">
 			<div class="row gx-4">
 				<div class="col-auto">
-					<div class="avatar avatar-xl position-relative">
+					<div class="avatar avatar-md position-relative">
 						<% if(user.profilePic){ %>
 						<img src="/<%- user.profilePic.path %> " alt="profile_image"
 							class="w-100 border-radius-lg shadow-sm">
@@ -164,8 +164,13 @@
 										<td class="">
 											<div class="d-flex px-2 py-1">
 												<div>
-													<img src="/dashboard/img/team-2.jpg" class="avatar avatar-sm me-3"
-														alt="user1">
+													<% if(admin.profilePic){ %>
+													<img src="/<%- admin.profilePic.path %> " alt="profile_image"
+														class="avatar avatar-sm me-3">
+													<% }else{ %>
+													<span
+														class="d-flex justify-content-center align-items-center avatar avatar-sm me-3 border-radius-lg shadow-sm text-uppercase bold bg-gradient-primary"><%- admin.firstname.substr(0, 1) %></span>
+													<% } %>
 												</div>
 												<div class="d-flex flex-column justify-content-center">
 													<h6 class="mb-0 text-sm"><%- admin.firstname %></h6>
@@ -212,11 +217,11 @@
 </main>
 
 <!-- Add admin to plan  modal -->
-<%- include("components/addAdminToPlan.Modal.ejs") %>
+<%- include("components/addAdminToPlan.ejs") %>
 <!-- Add admin to plan  modal -->
-<%- include("components/resolveUsers.modal.ejs") %>
+<%- include("components/resolveUsers.ejs") %>
 <!-- Leave Plan modal -->
-<%- include("components/leavePlan.modal.ejs") %>
+<%- include("components/leavePlan.ejs") %>
 <!-- Message Bird -->
 <%- include("utils/messageBird") %>
 <!-- Fixed Plugin -->
@@ -224,8 +229,8 @@
 <!--  -->
 <!-- Script -->
 <%- include("partials/__scripts") %>
-<script src="/dashboard/js/addAdminToPlan.modal.js"></script>
-<script src="/dashboard/js/resolveUser.modal.js"></script>
+<script src="/dashboard/js/addAdminToPlan.js"></script>
+<script src="/dashboard/js/resolveUser.js"></script>
 <script src="/dashboard/js/leavePlan.js"></script>
 </body>
 

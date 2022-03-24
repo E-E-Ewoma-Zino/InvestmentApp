@@ -11,10 +11,14 @@ module.exports = async (req, res) => {
 			select: "amount"
 		})
 		.populate({
+			path: "userActivePlan.plan",
+			select: "name"
+		})
+		.populate({
 			path: "transactionHistory",
 			populate: {
 				path: "fromWho toWho",
-				select: "firstname username"
+				select: ["firstname", "username", "profilePic"],
 			}
 		});
 	if (!pageData) bird.message("danger", "Page did not loadup correctly");

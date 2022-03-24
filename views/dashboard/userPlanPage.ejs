@@ -23,7 +23,7 @@
 		<div class="card card-body blur shadow-blur mx-4 mt-n6 overflow-hidden">
 			<div class="row gx-4">
 				<div class="col-auto">
-					<div class="avatar avatar-xl position-relative">
+					<div class="avatar avatar-md position-relative">
 						<% if(user.profilePic){ %>
 						<img src="/<%- user.profilePic.path %> " alt="profile_image"
 							class="w-100 border-radius-lg shadow-sm">
@@ -115,8 +115,13 @@
 											onclick="getData({ adminName: '<%- admin.firstname %>', adminId: '<%- admin._id %>', planId: '<%- plan._id %>'})">
 											<div class="d-flex px-2 py-1">
 												<div>
-													<img src="/dashboard/img/team-2.jpg" class="avatar avatar-sm me-3"
-														alt="user1">
+													<% if(admin.profilePic){ %>
+													<img src="/<%- admin.profilePic.path %> " alt="profile_image"
+														class="avatar avatar-sm me-3">
+													<% }else{ %>
+													<span
+														class="d-flex justify-content-center align-items-center avatar avatar-sm me-3 border-radius-lg shadow-sm text-uppercase bold bg-gradient-primary"><%- admin.firstname.substr(0, 1) %></span>
+													<% } %>
 												</div>
 												<div class="d-flex flex-column justify-content-center">
 													<h6 class="mb-0 text-sm"><%- admin.firstname %></h6>
@@ -136,7 +141,8 @@
 										</td>
 										<td class="align-middle text-center">
 											<!-- TODO: Here is the date time -->
-											<span class="text-secondary text-xs font-weight-bold"><%- admin.duration %></span>
+											<span
+												class="text-secondary text-xs font-weight-bold"><%- admin.duration %></span>
 										</td>
 										<td class="align-middle">
 											<a href="/dashboard/view/<%- admin.firstname %>?id=<%- admin._id %>"
@@ -196,7 +202,7 @@
 </main>
 
 <!-- Add user to plan modal -->
-<%- include("components/addUserToPlan.Modal.ejs") %>
+<%- include("components/addUserToPlan.ejs") %>
 <!-- Message Bird -->
 <%- include("utils/messageBird") %>
 <!-- Fixed Plugin -->
@@ -204,7 +210,7 @@
 <!--  -->
 <!-- Script -->
 <%- include("partials/__scripts") %>
-<script src="/dashboard/js/addUserToPlan.modal.js"></script>
+<script src="/dashboard/js/addUserToPlan.js"></script>
 <!--  -->
 </body>
 

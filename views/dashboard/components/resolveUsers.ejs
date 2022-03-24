@@ -59,10 +59,14 @@
 								</td>
 								<form data-resolve-user="true">
 									<td>
-										<input type="number" name="amount" class="form-control w-100" placeholder="0.00"
-											value="0">
-										<input type="hidden" name="plan" value="<%- activeUsers[0].plan._id %>">
-										<input type="hidden" name="user" value="<%- user.id._id %>">
+										<div class="input-group mb-3">
+											<span class="input-group-text">$</span>
+											<input type="number" name="amount"
+												aria-label="Dollar amount (with dot and two decimal places)"
+												class="form-control w-100" placeholder="0.00" value="0">
+												<input type="hidden" name="plan" value="<%- activeUsers[0].plan._id %>">
+												<input type="hidden" name="user" value="<%- user.id._id %>">
+										</div>
 									</td>
 									<td>
 										<div class="resolve">
@@ -72,9 +76,9 @@
 								</form>
 							</tr>
 							<% }); %>
-							<% }else{ %> 
-								<h5 class="text-muted">No active investment.</h5>
-								<% } %>
+							<% }else{ %>
+							<h5 class="text-muted">No active investment.</h5>
+							<% } %>
 						</tbody>
 					</table>
 				</div>

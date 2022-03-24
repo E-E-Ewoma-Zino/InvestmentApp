@@ -12,6 +12,30 @@ body::-webkit-scrollbar {
 	z-index: 1
 }
 
+/* profile image */
+[data-profilePic="no-edit"] i{
+	opacity: 0
+}
+[data-profilePic="editable"] {
+	cursor: pointer;
+	transition: all .2s ease-in;
+}
+[data-profilePic="editable"] i {
+	opacity: 0;
+	top: 50%;
+	left: 50%;
+	transition: all .2s ease-in;
+}
+[data-profilePic="editable"]:hover .avatar {
+	opacity: 0
+}
+[data-profilePic="editable"]:hover i {
+	opacity: 1;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
 /* for resolve modal */
 @media (min-width: 576px) {
 	.modal-dialog.resolve {

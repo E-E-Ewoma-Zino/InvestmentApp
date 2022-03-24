@@ -1,15 +1,16 @@
 const express = require("express");
-const userAndAdmin = require("../middleware/usersAuth");
-const adminOnly = require("../middleware/adminOnly");
+const multer = require("../config/multer");
 const creditWallet = require("../api/credit");
-const createPlan = require("../api/createplan");
-const addPlanPermission = require("../api/addPlanPermission");
-const addAdminToPlan = require("../api/addAdminToPlan");
-const addUserToPlan = require("../api/addUserToPlan");
-const resolvePlan = require("../api/resolveUser");
-const getRetuest = require("../api/getRequest");
 const leavePlan = require("../api/leavePlan");
+const getRetuest = require("../api/getRequest");
+const createPlan = require("../api/createplan");
+const resolvePlan = require("../api/resolveUser");
+const adminOnly = require("../middleware/adminOnly");
 const updateProfile = require("../api/updateProfile");
+const addUserToPlan = require("../api/addUserToPlan");
+const userAndAdmin = require("../middleware/usersAuth");
+const addAdminToPlan = require("../api/addAdminToPlan");
+const addPlanPermission = require("../api/addPlanPermission");
 
 const router = express.Router();
 // ====== GET ======
@@ -55,6 +56,6 @@ router.patch("/resolveuser", userAndAdmin, (req, res) => resolvePlan(req, res));
 router.patch("/leavePlan", userAndAdmin, (req, res) => leavePlan(req, res));
 // @desc	Update a users profile
 // @route	api/updateProfile
-router.patch("/updateprofile", userAndAdmin, (req, res) => updateProfile(req, res));
+router.patch("/updateprofile", userAndAdmin, multer.single("image"), (req, res) => updateProfile(req, res));
 
 module.exports = router;
