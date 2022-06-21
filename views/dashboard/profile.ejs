@@ -2,7 +2,7 @@
 <%- include("partials/__head") %>
 <!-- Sidebar -->
 <%- include("partials/__sidebar") %>
-<% const { appWallet, transactionHistory, firstname, lastname, username, phoneNo, profilePic, authLevel, ...others } = data %>
+<% const { _id: user, appWallet, transactionHistory, firstname, lastname, username, phoneNo, profilePic, authLevel, ...others } = data %>
 <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg ">
 	<!-- Navbar -->
 	<%- include("partials/__navbar") %>
@@ -13,29 +13,30 @@
 		<div class="page-header d-flex justify-content-end min-height-300 border-radius-md mt-4"
 			style="background-image: url('/dashboard/img/curved-images/curved0.jpg'); background-position-y: 50%;">
 			<% others._doc.userActivePlan.forEach( activePlan => { %>
-				<div class="appWallet_balance row">
-					<div class="card">
-						<div class="card-body p-3">
-							<div class="row">
-								<div class="col-4 text-end">
-									<div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-										<i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
-									</div>
+			<div class="appWallet_balance row">
+				<div class="card">
+					<div class="card-body p-3">
+						<div class="row">
+							<div class="col-4 text-end">
+								<div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+									<i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
 								</div>
-								<div class="col-8">
-									<div class="numbers">
-										<p class="text-sm mb-0 text-capitalize font-weight-bold"><%- activePlan.plan.name %></p>
-										<h5 class="font-weight-bolder mb-0">
-											$<%- activePlan.amount %>
-											<span class="text-success text-sm font-weight-bolder">+55%</span>
-										</h5>
-									</div>
+							</div>
+							<div class="col-8">
+								<div class="numbers">
+									<p class="text-sm mb-0 text-capitalize font-weight-bold"><%- activePlan.plan.name %>
+									</p>
+									<h5 class="font-weight-bolder mb-0">
+										$<%- activePlan.amount %>
+										<span class="text-success text-sm font-weight-bolder">+55%</span>
+									</h5>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			<% }) %> 
+			</div>
+			<% }) %>
 			<!-- COMMENT: App wallet here -->
 			<div class="appWallet_balance row">
 				<div class="card">
@@ -305,8 +306,8 @@
 					<div class="card mb-4">
 						<div class="card-header d-flex justify-content-between align-items-center pb-0">
 							<h6>Recent Transaction</h6>
-							<a href="/dashboard/transaction" class="btn btn-outline-primary text-nowrap mb-0">
-								See all 
+							<a href="/dashboard/transactions" class="btn btn-outline-primary text-nowrap mb-0">
+								See all
 								<i class="fa fa-arrow-right"></i>
 							</a>
 						</div>
@@ -333,28 +334,31 @@
 									</thead>
 									<tbody>
 										<% transactionHistory.reverse().forEach((transaction, index) => { %>
-											<% if(index > 5) return %> 
+										<% if(index > 5) return %>
 										<tr>
 											<td>
 												<div class="d-flex px-2 py-1">
 													<div class="avatar avatar-md position-relative">
 														<% if (transaction.fromWho.username == transaction.toWho.username){ %>
 														<% if(profilePic){ %>
-														<img src="/<%- profilePic.path %>" alt="profile_image" class="avatar avatar-sm me-3">
+														<img src="/<%- profilePic.path %>" alt="profile_image"
+															class="avatar avatar-sm me-3">
 														<% }else{ %>
 														<span
 															class="d-flex justify-content-center align-items-center avatar avatar-sm me-3 border-radius-lg shadow-sm text-uppercase bold bg-gradient-primary"><%- firstname.substr(0, 1) %></span>
 														<% } %>
 														<% }else if (transaction.fromWho.username != username){ %>
 														<% if(transaction.fromWho.profilePic){ %>
-														<img src="/<%- transaction.fromWho.profilePic.path %>" alt="profile_image" class="avatar avatar-sm me-3">
+														<img src="/<%- transaction.fromWho.profilePic.path %>"
+															alt="profile_image" class="avatar avatar-sm me-3">
 														<% }else{ %>
 														<span
 															class="d-flex justify-content-center align-items-center avatar avatar-sm me-3 border-radius-lg shadow-sm text-uppercase bold bg-gradient-primary"><%- transaction.fromWho.firstname.substr(0, 1) %></span>
 														<% } %>
 														<% }else{ %>
 														<% if(transaction.toWho.profilePic){ %>
-														<img src="/<%- transaction.toWho.profilePic.path %>" alt="profile_image" class="avatar avatar-sm me-3">
+														<img src="/<%- transaction.toWho.profilePic.path %>"
+															alt="profile_image" class="avatar avatar-sm me-3">
 														<% }else{ %>
 														<span
 															class="d-flex justify-content-center align-items-center avatar avatar-sm me-3 border-radius-lg shadow-sm text-uppercase bold bg-gradient-primary"><%- transaction.toWho.firstname.substr(0, 1) %></span>
@@ -395,34 +399,14 @@
 											<td class="align-middle text-center">
 												<!-- TODO: Here is the date time -->
 												<!-- mongoose date -->
-												<% const timeOfTransaction = new Date(transaction.createdAt) %>
-												<!-- today date -->
-												<% const today = new Date() %>
-												<!-- extract from today the day, month, and year -->
-												<% const [dTd, mTd, yTd] = [ today.getDate(), today.getMonth(), today.getFullYear() ] %>
-												<!-- extract from mongoose the day, month, and year -->
-												<% const [d, m, y] = [ timeOfTransaction.getDate(), timeOfTransaction.getMonth(), timeOfTransaction.getFullYear() ] %>
-												<!-- add date together   -->
-												<% const [ addTd, add ] = [ dTd + mTd+ yTd, d+m+y ] %>
-												<!-- format the time of the transaction -->
-												<% let time = `${d} - ${m} - ${y}` %>
-												<!-- use date addition to know how long it has been -->
-												<% if((addTd - add) == 0){ %>
-												<% time = "Today" %>
-												<% }else if((addTd - add) > 0 && (addTd - add) <= 1 ){ %>
-												<% time = "Yesterday" %>
-												<% }else if((addTd - add) > 1 && (addTd - add) < 7 ){ %>
-												<% time = "Few days ago" %>
-												<% }else if((addTd - add) > 7 && (addTd - add) <= 9 ){ %>
-												<% time = "A week ago" %>
-												<% }else if((addTd - add) > 31 && (addTd - add) < 33 ){ %>
-												<% time = "A month ago" %>
-												<% }else if((addTd - add) > 62 && (addTd - add) < 64 ){ %>
-												<% time = "2 months ago" %>
-												<% }else{ %>
-												<% time = time %>
-												<% } %>
-												<span class="text-secondary text-xs font-weight-bold"><%- time %></span>
+											<% const timeOfTransaction = new Date(transaction.createdAt) %>
+											<!-- use moment js to get the time period from the created date -->
+											<script src="https://momentjs.com/downloads/moment.min.js"></script>
+											<span class="text-secondary text-xs font-weight-bold">
+												<script>
+													document.write(moment("<%= timeOfTransaction %>").fromNow());
+												</script> 
+											</span>
 											</td>
 											<td class="align-middle">
 												<a href="javascript:void(0);"
@@ -458,19 +442,28 @@
 						</div>
 						<div class="card-body p-3">
 							<div class="row">
-								<% plans.forEach(plan => { %>
+								<% plans.forEach((plan, index) => { %>
 								<div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-4">
 									<div class="card card-blog card-plain">
 										<div class="position-relative">
-											<a href="/dashboard/plan/<%- plan.name %> ?id=<%- plan._id %>"
+											<a href="/dashboard/plans/<%- plan.name %> ?id=<%- plan._id %>"
 												class="d-block shadow-md border-radius-md">
-												<img src="/dashboard/img/home-decor-1.jpg" alt="img-blur-shadow"
-													class="img-fluid shadow border-radius-md">
+												<img src="/dashboard/img/home-decor-<%- index + 1 > 4? Math.floor(Math.random() * 5,): index + 1 %>.jpg"
+													alt="img-blur-shadow" class="img-fluid shadow border-radius-md">
 											</a>
 										</div>
 										<div class="card-body px-1 pb-0">
-											<p class="text-gradient text-dark mb-2 text-sm">Project #2</p>
-											<a href="/dashboard/plan/<%- plan.name %> ?id=<%- plan._id %>">
+											<div class="d-flex justify-content-between align-items-center">
+												<p class="text-gradient text-dark mb-2 text-sm">Plan #<%- index + 1 %>
+												</p>
+												<% if(authLevel > 1) { %>
+												<a href="/dashboard/plans">
+													<i class="fa fa-edit"></i>
+													Edit
+												</a>
+												<% } %>
+											</div>
+											<a href="/dashboard/plans/<%- plan.name %> ?id=<%- plan._id %>">
 												<h5>
 													<%- plan.name %>
 												</h5>
@@ -478,7 +471,7 @@
 											<!-- TODO: Add a plan description here -->
 											<p class="mb-4 text-sm"><%- plan.description %> </p>
 											<div class="d-flex align-items-center justify-content-between">
-												<a href="/dashboard/plan/<%- plan.name %> ?id=<%- plan._id %>">
+												<a href="/dashboard/plans/<%- plan.name %> ?id=<%- plan._id %>">
 													<button type="button"
 														class="btn btn-outline-primary btn-sm mb-0">View
 														More</button>
@@ -490,16 +483,16 @@
 														class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip"
 														data-bs-placement="bottom" title="<%- admin.firstname %>">
 														<% if(admin.profilePic){ %>
-															<div class="">
+														<div class="">
 
-																<img alt="Image placeholder"
+															<img alt="Image placeholder"
 																src="/<%- admin.profilePic.path %>">
-															</div>
+														</div>
 														<% }else{ %>
-															<div class="">
-																<span
-																	class="d-flex justify-content-center align-items-center avatar avatar-xs rounded-circle text-uppercase bg-gradient-primary"><%- admin.firstname.substr(0, 1) %></span>
-															</div>
+														<div class="">
+															<span
+																class="d-flex justify-content-center align-items-center avatar avatar-xs rounded-circle text-uppercase bg-gradient-primary"><%- admin.firstname.substr(0, 1) %></span>
+														</div>
 														<% } %>
 													</a>
 													<% }) %>
@@ -516,7 +509,7 @@
 											<a href="javascript:void(0);" data-bs-toggle="modal"
 												data-bs-target="#exampleModalSignUp">
 												<i class="fa fa-plus text-secondary mb-3"></i>
-												<h5 class=" text-secondary"> New project </h5>
+												<h5 class=" text-secondary"> New Plan </h5>
 											</a>
 										</div>
 									</div>
@@ -576,14 +569,14 @@
 										<div class="form-group">
 											<label for="changePassword">Previous Password</label>
 											<input type="password" class="form-control" data-password="previous"
-												name="password" id="oldPassword" placeholder="password">
+												name="password" id="oldPassword" placeholder="password" autocomplete="true">
 										</div>
 									</li>
 									<li class="list-group-item border-0 ps-0 pt-0 text-sm">
 										<div class="form-group">
 											<label for="changePassword">New Password</label>
 											<input type="password" class="form-control" data-password="new"
-												name="password" id="newPassword" placeholder="password">
+												name="password" id="newPassword" placeholder="password" autocomplete="true">
 										</div>
 									</li>
 								</ul>
@@ -670,41 +663,63 @@
 							</div>
 						</div>
 						<div class="card-body p-3">
-							<form role="form text-left">
+							<% let descriptionDisplay = "d-block" %>
+							<% if(!others._doc.planDescriptions.length){ %> 
+								<% descriptionDisplay = "d-none" %> 
+								<h6 class="text-warning">Start a plan before adding a plan description. <a href="/plan" class="btn btn-primary mt-3">Start Plan</a></h6>
+							<% } %> 
+							<form role="form text-left" class="<%= descriptionDisplay %>">
 								<div class="form-group">
-									<label class="lead" for="changePlanDescription">How I work</label>
-									<textarea class="form-control text-sm" data-description="true"
-										id="changePlanDescription" rows="4"
-										placeholder="Describe how you work..."><%- others._doc.description %></textarea>
+									<div class="form-group">
+										<label class="" for="exampleFormControlSelect4">Plan</label>
+										<select class="form-control" id="exampleFormControlSelect4" data-plan="true">
+											<% others._doc.planDescriptions.forEach( (activePlan, index, d) => { %>
+												<option value="<%- index %>"><%- activePlan.plan.name %></option>
+											<% }) %>
+											<input type="hidden" data-user="true" name="user" value="<%- user %>">
+										</select>
+										<span class="text-muted text-sm">Set your prefrences for each plan you are
+											on</span>
+									</div>
 								</div>
 								<hr class="horizontal gray-light my-4">
-								<ul class="list-group">
-									<li class="list-group-item border-0 ps-0 pt-0 text-sm">
-										<div class="form-group">
-											<label for="changeMethod">Method</label>
-											<input type="text" class="form-control" data-method="true" name="method"
-												id="changeMethod" placeholder="<%- others._doc.method %>"
-												value="<%- others._doc.method %>">
-										</div>
-									</li>
-									<li class="list-group-item border-0 ps-0 pt-0 text-sm">
-										<div class="form-group">
-											<label for="chageDuration">Duration</label>
-											<input type="text" class="form-control" data-duration="true" name="duration"
-												id="chageDuration" placeholder="<%- others._doc.duration %>"
-												value="<%- others._doc.duration %>">
-										</div>
-									</li>
-									<li class="list-group-item border-0 ps-0 pt-0 text-sm">
-										<div class="form-group">
-											<label for="changeIncrease">Pontential Increase</label>
-											<input type="number" class="form-control" data-increase="true"
-												name="increase" id="changeIncrease"
-												placeholder="<%- others._doc.increase %>"
-												value="<%- others._doc.increase %>">
-										</div>
-									</li>
-								</ul>
+								<!-- The description changes due to the type of plan the user wants to change. So this form is dynamic -->
+								<div class="desc">
+									<!--  -->
+									<div class="form-group">
+										<label class="lead" for="changePlanDescription">How I work</label>
+										<textarea class="form-control text-sm" data-description="true"
+											id="changePlanDescription" rows="4"
+											placeholder="Describe how you work..."><%- others._doc.planDescriptions.length && others._doc.planDescriptions[0].description %></textarea>
+									</div>
+									<ul class="list-group">
+										<li class="list-group-item border-0 ps-0 pt-0 text-sm">
+											<div class="form-group">
+												<label for="changeMethod">Method</label>
+												<input type="text" class="form-control" data-method="true" name="method"
+													id="changeMethod" placeholder="<%- others._doc.planDescriptions.length && others._doc.planDescriptions[0].method %>"
+													value="<%- others._doc.planDescriptions.length && others._doc.planDescriptions[0].method %>">
+											</div>
+										</li>
+										<li class="list-group-item border-0 ps-0 pt-0 text-sm">
+											<div class="form-group">
+												<label for="chageDuration">Duration</label>
+												<input type="text" class="form-control" data-duration="true" name="duration"
+													id="chageDuration" placeholder="<%- others._doc.planDescriptions.length && others._doc.planDescriptions[0].duration %>"
+													value="<%- others._doc.planDescriptions.length && others._doc.planDescriptions[0].duration %>">
+											</div>
+										</li>
+										<li class="list-group-item border-0 ps-0 pt-0 text-sm">
+											<div class="form-group">
+												<label for="changeIncrease">Pontential Increase</label>
+												<input type="number" class="form-control" data-increase="true"
+													name="increase" id="changeIncrease"
+													placeholder="<%- others._doc.planDescriptions.length && others._doc.planDescriptions[0].increase %>"
+													value="<%- others._doc.planDescriptions.length && others._doc.planDescriptions[0].increase %>">
+											</div>
+										</li>
+									</ul>
+								</div>
 							</form>
 						</div>
 					</div>
@@ -745,7 +760,57 @@
 <script src="/dashboard/js/modal/creditWallet.js"></script>
 <script src="/dashboard/js/modal/transaction.js"></script>
 <script src="/dashboard/js/modal/updateProfile.js"></script>
+<script>
+	const plan = document.querySelector(`[data-plan="true"]`);
+	const descDom = document.querySelector(".desc");
+	const user = document.querySelector(`[data-user="true"]`);
+	
+	// this request would dynamicly update the description form to match the plan
+	if (user) axios.get("/api/get/byidandpopulate/user?id=" + user.value + "&opt=planDescriptions.plan").then(res => {
+		// console.log("res", res.data.message);
+		const data = res.data.message.planDescriptions;
+		if (data) {
+			const form = ({description, method, increase, duration, maxInvestment}) => `<div class="form-group">
+				<label class="lead" for="changePlanDescription">How I work</label>
+				<textarea class="form-control text-sm" data-description="true"
+					id="changePlanDescription" rows="4"
+					placeholder="Describe how you work...">${description}</textarea>
+			</div>
+			<ul class="list-group">
+				<li class="list-group-item border-0 ps-0 pt-0 text-sm">
+					<div class="form-group">
+						<label for="changeMethod">Method</label>
+						<input type="text" class="form-control" data-method="true" name="method"
+							id="changeMethod" placeholder="${method}" value="${method}">
+					</div>
+				</li>
+				<li class="list-group-item border-0 ps-0 pt-0 text-sm">
+					<div class="form-group">
+						<label for="chageDuration">Duration</label>
+						<input type="text" class="form-control" data-duration="true" name="duration"
+							id="chageDuration" placeholder="${duration}" value="${duration}">
+					</div>
+				</li>
+				<li class="list-group-item border-0 ps-0 pt-0 text-sm">
+					<div class="form-group">
+						<label for="changeIncrease">Pontential Increase</label>
+						<input type="number" class="form-control" data-increase="true"
+							name="increase" id="changeIncrease" placeholder="${increase}" value="${increase}">
+					</div>
+				</li>
+			</ul>`;
+			plan.addEventListener("change", e => {
+				descDom.innerHTML = form({description: data[plan.value].description, method: data[plan.value].method, increase: data[plan.value].increase, duration: data[plan.value].duration, maxInvestment: data[plan.value].maxInvestment});
+			});
+		}
+	}).catch(err => {
+		console.log("err", err);
+	});
 
+	const loc = location.hash;
+	// set plan to be updated form outside req
+	if (loc.substr(loc.indexOf("?")+1, loc.length-12) == "plan") plan.value = loc.substr(loc.length - 1, loc.length);
+</script>
 </body>
 
 </html>

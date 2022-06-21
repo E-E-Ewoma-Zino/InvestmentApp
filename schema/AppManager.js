@@ -12,7 +12,7 @@ const appManagerSchema = mongoose.Schema({
 	// So 1 dollar = 0.05 appManager
 	appWalletValue: {
 		type: Number,
-		default: "5",
+		default: "1",
 		required: true
 	}
 	// Things needed for all appManager Schema

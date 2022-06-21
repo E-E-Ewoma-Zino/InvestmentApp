@@ -39,7 +39,11 @@ imgInput.addEventListener("change", e => {
 	else {
 		// fallback -- perhaps submit the input to an iframe and temporarily store
 		// them on the server until the user's session ends.
-		console.log("not supported");
+		messager({
+			alert: "warning",
+			message: "Your browser does not support image preview!",
+			duration: 3000,
+		});
 	}
 });
 
@@ -81,20 +85,23 @@ function updateProfile(e) {
 
 	// file data
 	const imageData = new FormData();
-	console.log("demo Img", demoImg, "demoImgTmp", demoImgTmp);
 	if (demoImg == demoImgTmp) imageData.append("image", uploadForm[0].files[0]);
 
+	// append the plan Id so I can always know which plan descrition is to be 
+	const planID = document.querySelector(`[data-plan="true"]`);
+	if (planID) imageData.append("plan", document.querySelector(`[data-plan="true"]`).value);
+	
 	// for each of the fields check if it was updated and if it was, appent it
 	for (s in settingsData) if (settingsPData[s] != settingsData[s]) imageData.append(s, settingsData[s]);
 
 	// send the data
 	axios.patch("/api/updateprofile", imageData).then((res) => {
-		console.log("res:", res);
+		// console.log("res:", res);
 		if (res.data.bird.length) res.data.bird.forEach(bird => {
 			messager({
 				progressBar: false,
 				alert: bird.alert,
-				duration: 7000,
+				duration: 2000,
 				message: bird.message
 			});
 		});

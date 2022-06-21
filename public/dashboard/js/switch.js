@@ -42,7 +42,7 @@ $(() => {
 		profilePic.setAttribute("data-bs-target", "#modal-form-update-profile");
 	});
 
-	if (location.hash == "#settings") {
+	if (location.hash.search("settings") == 1) {
 		movingTab.style.width = "103px";
 		profilePic.setAttribute("data-bs-toggle", "modal");
 		profilePic.setAttribute("data-profilePic", "editable");

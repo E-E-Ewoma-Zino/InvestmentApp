@@ -1,0 +1,199 @@
+<!-- Head -->
+<%- include("partials/__head") %>
+<!-- Sidebar -->
+<%- include("partials/__sidebar") %>
+<% const { appWallet, transactionHistory, firstname, lastname, username, phoneNo, profilePic, authLevel, ...others } = data %>
+
+<main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg ">
+	<!-- Navbar -->
+	<%- include("partials/__navbar") %>
+
+	<!--  -->
+
+	<div class="container-fluid">
+		<div class="page-header d-flex justify-content-center min-height-300 border-radius-xl mt-4"
+			style="background-image: url('/dashboard/img/curved-images/curved14.jpg'); background-position-y: 50%;">
+			<!-- COMMENT: App wallet here -->
+			<div class="header">
+				<h1 class="display-1 text-light text-bold">
+					Transactions
+				</h1>
+			</div>
+			<span class="mask bg-gradient-secondary opacity-6"></span>
+		</div>
+		<div class="card card-body blur shadow-blur mx-4 mt-n6 overflow-hidden">
+			<div class="row gx-4">
+				<div class="col-auto">
+					<div class="avatar avatar-md position-relative">
+						<% if(user.profilePic){ %>
+						<img src="/<%- user.profilePic.path %> " alt="profile_image"
+							class="w-100 border-radius-lg shadow-sm">
+						<% }else{ %>
+						<span
+							class="d-flex justify-content-center align-items-center w-100 h-100 border-radius-lg shadow-sm text-uppercase bold bg-gradient-primary"><%- user.firstname.substr(0, 1) %></span>
+						<% } %>
+					</div>
+				</div>
+				<div class="col-auto my-auto">
+					<div class="h-100">
+						<h5 class="mb-1">
+							<%- user.firstname %>
+						</h5>
+						<p class="mb-0 font-weight-bold text-sm">
+							<%- user.username %>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid py-4">
+		<div class="row mt-4">
+			<!-- COMMENT: Transactions -->
+			<div class="col-12">
+				<div class="card mb-4">
+					<div class="card-header d-flex justify-content-between align-items-center pb-0">
+						<h6>Recent Transaction</h6>
+					</div>
+					<div class="card-body px-0 pt-0 pb-2">
+						<div class="table-responsive p-0">
+							<table class="table align-items-center mb-0">
+								<thead>
+									<tr>
+										<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+											Type
+										</th>
+										<th
+											class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+											Outcome</th>
+										<th
+											class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+											Status</th>
+										<th
+											class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+											Date/Time</th>
+										<th class="text-secondary opacity-7"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<% transactionHistory.reverse().forEach((transaction, index) => { %>
+									<%# if(index > 5) return %>
+									<tr>
+										<td>
+											<div class="d-flex px-2 py-1">
+												<div class="avatar avatar-md position-relative">
+													<% if (transaction.fromWho.username == transaction.toWho.username){ %>
+													<% if(profilePic){ %>
+													<img src="/<%- profilePic.path %>" alt="profile_image"
+														class="avatar avatar-sm me-3">
+													<% }else{ %>
+													<span
+														class="d-flex justify-content-center align-items-center avatar avatar-sm me-3 border-radius-lg shadow-sm text-uppercase bold bg-gradient-primary"><%- firstname.substr(0, 1) %></span>
+													<% } %>
+													<% }else if (transaction.fromWho.username != username){ %>
+													<% if(transaction.fromWho.profilePic){ %>
+													<img src="/<%- transaction.fromWho.profilePic.path %>"
+														alt="profile_image" class="avatar avatar-sm me-3">
+													<% }else{ %>
+													<span
+														class="d-flex justify-content-center align-items-center avatar avatar-sm me-3 border-radius-lg shadow-sm text-uppercase bold bg-gradient-primary"><%- transaction.fromWho.firstname.substr(0, 1) %></span>
+													<% } %>
+													<% }else{ %>
+													<% if(transaction.toWho.profilePic){ %>
+													<img src="/<%- transaction.toWho.profilePic.path %>"
+														alt="profile_image" class="avatar avatar-sm me-3">
+													<% }else{ %>
+													<span
+														class="d-flex justify-content-center align-items-center avatar avatar-sm me-3 border-radius-lg shadow-sm text-uppercase bold bg-gradient-primary"><%- transaction.toWho.firstname.substr(0, 1) %></span>
+													<% } %>
+													<% } %>
+												</div>
+
+												<div class="d-flex flex-column justify-content-center">
+													<!-- TODO: Change john to {Alert } from or to -->
+													<h6
+														class="mb-0 text-sm text-<%- transaction.alert == "Credit"? "success": "danger" %>">
+														<%- transaction.alert %> </h6>
+													<!-- TODO: here would be who the transaction is from or to -->
+													<p class="text-xs text-secondary mb-0">
+														<%- transaction.alert == "Credit"? (transaction.fromWho.username == transaction.toWho.username? "You": "from: " +  transaction.fromWho.username): "to: " + transaction.toWho.username %>
+													</p>
+												</div>
+											</div>
+										</td>
+										<td>
+											<!-- TODO: Here would be the amount -->
+											<p class="text-xs font-weight-bold mb-0">
+												<%- transaction.amountInAppWallet %> </p>
+											<!-- TODO: Here will be the method of transfer -->
+											<p class="text-xs text-secondary mb-0">
+												<%- transaction.methodOfPayment %> </p>
+										</td>
+										<td class="align-middle text-center text-sm">
+											<!-- TODO: Here would be the status of the payment -->
+											<% if(transaction.status == 1){ %>
+											<span class="badge badge-sm bg-gradient-success">Success</span>
+											<% }else if(transaction.status == 0) { %>
+											<span class="badge badge-sm bg-gradient-danger">Failed</span>
+											<% }else { %>
+											<span class="badge badge-sm bg-gradient-waring">Pending</span>
+											<% } %>
+										</td>
+										<td class="align-middle text-center">
+											<!-- TODO: Here is the date time -->
+											<!-- mongoose date -->
+											<% const timeOfTransaction = new Date(transaction.createdAt) %>
+											<!-- use moment js to get the time period from the created date -->
+											<script src="https://momentjs.com/downloads/moment.min.js"></script>
+											<span class="text-secondary text-xs font-weight-bold">
+												<script>
+													document.write(moment("<%= timeOfTransaction %>").fromNow());
+												</script> 
+											</span>
+										</td>
+										<td class="align-middle">
+											<a href="javascript:void(0);"
+												class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
+												data-original-title="Edit user" data-bs-toggle="modal"
+												data-bs-target="#exampleModal" onclick="openTransaction({
+												description: `<%- transaction.description %>`,
+												status: `<%- transaction.status %>`,
+												alert: `<%- transaction.alert %>`,
+												amountInAppWallet: `<%- transaction.amountInAppWallet %>`,
+												methodOfPayment: `<%- transaction.methodOfPayment %>`,
+												fromWho: `<%- transaction.fromWho.username %>`,
+												toWho: `<%- transaction.toWho.username %>`,
+												createdAt: `<%- transaction.createdAt %>`
+												})">
+												See More
+											</a>
+										</td>
+									</tr>
+									<% }) %>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Footer -->
+		<%- include("partials/__footer") %>
+	</div>
+</main>
+
+<!-- Message Bird -->
+<%- include("utils/messageBird") %>
+<!-- Transaction modal -->
+<%- include("components/transaction") %>
+<!-- Fixed Plugin -->
+<%- include("partials/__theme") %>
+<!--  -->
+<!-- Script -->
+<%- include("partials/__scripts") %>
+<!--  -->
+<script src="/dashboard/js/modal/transaction.js"></script>
+
+</body>
+
+</html>

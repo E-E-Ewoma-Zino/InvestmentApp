@@ -11,8 +11,8 @@ class Edit {
 	}
 
 	// find an item by it's id
-	async findById(id) {
-		return await this.schema.findById({ _id: id }).exec();
+	async findById(id, callback) {
+		return await this.schema.findById({ _id: id }).exec(callback);
 	}
 
 	// find an item by it's name

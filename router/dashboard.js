@@ -3,15 +3,18 @@ const express = require("express");
 const login = require("../auth/login");
 const logout = require("../auth/logout");
 const register = require("../auth/register");
-const view = require("../controller/dashboard/view");
 const plan = require("../controller/dashboard/plan");
 const adminOnly = require("../middleware/adminOnly");
+const view = require("../controller/dashboard/view");
 const userAndAdmin = require("../middleware/usersAuth");
 const profile = require("../controller/dashboard/profile");
 const loginPage = require("../controller/dashboard/login");
-const otherPage = require("../controller/dashboard/otherPage");
+const planPage = require("../controller/dashboard/planPage");
 const dashboard = require("../controller/dashboard/dashboard");
+const otherPage = require("../controller/dashboard/otherPage");
+const withdrawal = require("../controller/dashboard/withdrawal");
 const registerPage = require("../controller/dashboard/register");
+const transactions = require("../controller/dashboard/transactions");
 
 const router = express.Router();
 
@@ -25,8 +28,20 @@ router.get("/", userAndAdmin, (req, res) => dashboard(req, res));
 router.get("/profile", userAndAdmin, (req, res) => profile(req, res));
 
 // @desc	plan
+// @route	/dashboard/plans
+router.get("/plans", userAndAdmin, (req, res) => planPage(req, res));
+
+// @desc	plan
 // @route	/dashboard/plan
-router.get("/plan/:planName", userAndAdmin, (req, res) => plan(req, res));
+router.get("/plans/:planName", userAndAdmin, (req, res) => plan(req, res));
+
+// @desc	plan
+// @route	/dashboard/transactions
+router.get("/transactions", userAndAdmin, (req, res) => transactions(req, res));
+
+// @desc	plan
+// @route	/dashboard/withdrawal
+router.get("/withdrawal", userAndAdmin, (req, res) => withdrawal(req, res));
 
 // @desc	view
 // @route	/dashboard/view

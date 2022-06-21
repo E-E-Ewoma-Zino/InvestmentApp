@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const planSchema = mongoose.Schema({
 	name: String,
 	description: String,
+	planPic: Object,
 	minBudget: {
 		type: Number,
 		required: true,
@@ -15,7 +16,7 @@ const planSchema = mongoose.Schema({
 	},
 	planKey: {
 		type: String,
-		default: "plan1"
+		default: "*"
 	},
 	activeUsers: [{
 		type: mongoose.Schema.Types.ObjectId,

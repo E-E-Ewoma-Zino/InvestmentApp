@@ -1,8 +1,6 @@
 // Profile page controller
 const bird = require("../../utils/messageBird");
 const user = require("../../models/user");
-const plans = require("../../models/plans");
-
 
 module.exports = async (req, res) => {
 	const pageData = await user.schema.findById({ _id: req.user._id })
@@ -27,18 +25,10 @@ module.exports = async (req, res) => {
 		});
 	if (!pageData) bird.message("danger", "Page did not loadup correctly");
 
-	const planData = await plans.findAndPopulate({
-		path: "activeAdmins",
-		select: "firstname profilePic"
-	});
-	if (!planData) bird.message("danger", "Could not loadup plans");
-
-	res.render("dashboard/profile", {
-		title: "Profile",
+	res.render("dashboard/transactions", {
+		title: "Transaction",
 		bird: bird.fly,
 		user: req.user,
-		plans: planData,
 		data: pageData
 	});
-
 }

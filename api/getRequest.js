@@ -11,6 +11,13 @@ module.exports = {
 		if (theUser) return res.status(200).json({ err: null, message: theUser });
 		else return res.status(404).json({ err: `Could not find user with id ${id}`, message: "Try again later" });
 	},
+	userByIdAndPopulate: async (req, res) => {
+		const { id, opt } = req.query;
+		const theUser = await user.findByIdAndPopulate(id, opt);
+
+		if (theUser) return res.status(200).json({ err: null, message: theUser });
+		else return res.status(404).json({ err: `Could not find user with id ${id}`, message: "Try again later" });
+	},
 	allUsers: async (req, res) => {
 		const theUsers = await user.findById();
 

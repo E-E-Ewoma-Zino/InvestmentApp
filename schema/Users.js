@@ -11,7 +11,6 @@ const userSchema = mongoose.Schema({
 	phoneNo: String,
 	address: String,
 	zipCode: String,
-	description: String,
 	profilePic: Object,
 	// things need for a user for this site
 	// 
@@ -60,7 +59,10 @@ const userSchema = mongoose.Schema({
 	}],
 
 	// this is a list of keys that a user can use to access a plan
-	planPermission: Array,
+	planPermission: {
+		type: Array,
+		default: ["*"]
+	},
 
 	// things for admin
 	// 
@@ -82,26 +84,36 @@ const userSchema = mongoose.Schema({
 	}],
 
 	// admin plan descriptions
-	method: {
-		type: String,
-		default: "Empty"
-	},
-	increase: {
-		type: Number,
-		default: 10
-	},
-	duration: {
-		type: String,
-		default: "Empty"
-	},
-	maxInvestment: {
-		type: Number,
-		default: 3
-	},
-	level: {
-		type: String,
-		default: "Basic"
-	},
+	planDescriptions: [{
+		plan: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Plan"
+		},
+		description: {
+			type: String,
+			default: "Empty"
+		},
+		method: {
+			type: String,
+			default: "Empty"
+		},
+		increase: {
+			type: Number,
+			default: 10
+		},
+		duration: {
+			type: String,
+			default: "Empty"
+		},
+		maxInvestment: {
+			type: Number,
+			default: 3
+		},
+		level: {
+			type: String,
+			default: "Basic"
+		}
+	}],
 
 	// this would hold the history of the plans the admin has been in, and how it went
 	adminPlanHistory: [{

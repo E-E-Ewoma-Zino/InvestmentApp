@@ -15,8 +15,10 @@
 								<form role="form text-left" data-form-addUser="true">
 									<label>Amount</label>
 									<div class="input-group mb-3">
+										<span class="input-group-text">$</span>
 										<input type="number" class="form-control" placeholder="<%- plan.minBudget %>"
-											aria-label="number" aria-describedby="number-addon"
+											aria-describedby="number-addon"
+											aria-label="Dollar amount (with dot and two decimal places)"
 											min="<%- plan.minBudget %>" max="<%- plan.maxBudget %>" required>
 									</div>
 

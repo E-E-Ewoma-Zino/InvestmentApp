@@ -7,11 +7,12 @@ module.exports = async ({ userData, data }) => {
 	console.log("updating", data);
 	let userUpdatedProfile;
 	for (d in data) {
+		if(d == "plan" || d == "image" || d == "newPassword" || d == "previousPassword") continue;
 		console.log("d", d);
 		userUpdatedProfile = await user.update({
-			itemToupdateId: { _id: userData._id },
+			itemToupdateId: { _id: userData._id},
 			optionsToUse: "$set",
-			propertyToUpdate: d,
+			propertyToUpdate: d == "firstname" || d == "lastname" || d == "phoneNo" || d == "profilePic"? d: `planDescriptions.${data.plan}.${d}`,
 			updateValue: data[d]
 		});
 		if (!userUpdatedProfile) return { message: "Could not update " + data[d], err: "Failed to finish update!", status: 505, alert: "danger" };

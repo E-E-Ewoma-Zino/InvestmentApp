@@ -5,7 +5,7 @@ const plans = require("../../models/plans");
 
 
 module.exports = async (req, res) => {
-	if (req.user.authLevel) res.render("dashboard/adminDashboard", {
+	if (req.user.authLevel > 1) res.render("dashboard/adminDashboard", {
 		title: "Dashboard",
 		bird: bird.fly,
 		user: req.user

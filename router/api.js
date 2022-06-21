@@ -22,6 +22,10 @@ router.get("/get/all/users", (req, res)=> getRetuest.allUsers(req, res));
 // @route	/api/get/byid/user
 router.get("/get/byid/user", (req, res)=> getRetuest.userById(req, res));
 
+// @desc	Get user by id and populate
+// @route	/api/get/byidandpopulate/user
+router.get("/get/byidandpopulate/user", (req, res)=> getRetuest.userByIdAndPopulate(req, res));
+
 // @desc	Get all plans
 // @route	/api/get/all/plans
 router.get("/get/all/plans", (req, res)=> getRetuest.allPlans(req, res));
